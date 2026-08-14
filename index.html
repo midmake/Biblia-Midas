@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Bíblia Sagrada Midas — leitura, promessas, favoritos e anotações em uma experiência feita para o celular."
+    />
+    <meta name="theme-color" content="#fbf8f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Bíblia Midas" />
+    <meta property="og:title" content="Bíblia Sagrada" />
+    <meta property="og:description" content="Uma palavra para acompanhar o seu dia." />
+    <meta property="og:type" content="website" />
+    <title>Bíblia Sagrada — Midas</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/icon.svg" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#app">Pular para o conteúdo</a>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <button class="brand-button" type="button" data-route="#/inicio" aria-label="Ir para o início">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <span>
+            <strong>Bíblia Sagrada</strong>
+            <small>por MIDAS</small>
+          </span>
+        </button>
+
+        <div class="topbar-actions">
+          <span class="connection-pill" id="connection-pill" hidden>Sem internet</span>
+          <button class="icon-button" id="settings-button" type="button" aria-label="Ajustes">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+              <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3v-4h.08A1.7 1.7 0 0 0 4.64 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 10 3.08V3h4v.08a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.56 1.03H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main id="app" tabindex="-1" aria-live="polite"></main>
+
+      <nav class="bottom-nav" aria-label="Navegação principal">
+        <button type="button" data-route="#/inicio" data-nav="inicio">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m3 11 9-8 9 8"></path>
+            <path d="M5 10v10h14V10M9 20v-6h6v6"></path>
+          </svg>
+          <span>Início</span>
+        </button>
+        <button type="button" data-route="#/biblia" data-nav="biblia">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22V4.5Z"></path>
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M12 6v7M9 9.5h6"></path>
+          </svg>
+          <span>Bíblia</span>
+        </button>
+        <button type="button" data-route="#/buscar" data-nav="buscar">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>
+          <span>Buscar</span>
+        </button>
+        <button type="button" data-route="#/salvos" data-nav="salvos">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 3h12v18l-6-4-6 4V3Z"></path>
+          </svg>
+          <span>Salvos</span>
+        </button>
+      </nav>
+    </div>
+
+    <dialog class="sheet" id="verse-sheet">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+      <p class="eyebrow" id="sheet-reference"></p>
+      <blockquote id="sheet-text"></blockquote>
+      <div class="sheet-actions">
+        <button type="button" id="favorite-action">
+          <span aria-hidden="true">♡</span>
+          <span>Salvar</span>
+        </button>
+        <button type="button" id="note-action">
+          <span aria-hidden="true">✎</span>
+          <span>Anotar</span>
+        </button>
+        <button type="button" id="share-action">
+          <span aria-hidden="true">↗</span>
+          <span>Compartilhar</span>
+        </button>
+        <button type="button" id="copy-action">
+          <span aria-hidden="true">⧉</span>
+          <span>Copiar</span>
+        </button>
+      </div>
+      <form class="note-editor" id="note-form" hidden>
+        <label for="note-text">Minha anotação</label>
+        <textarea id="note-text" rows="4" maxlength="1200" placeholder="Escreva o que este versículo falou com você..."></textarea>
+        <div class="inline-actions">
+          <button class="button ghost" type="button" id="cancel-note">Cancelar</button>
+          <button class="button primary" type="submit">Salvar anotação</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="sheet settings-sheet" id="settings-sheet">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+      <p class="eyebrow">Sua leitura</p>
+      <h2>Ajustes</h2>
+
+      <div class="setting-row">
+        <span>Tamanho do texto</span>
+        <div class="font-controls" aria-label="Tamanho do texto">
+          <button type="button" data-font-size="-1" aria-label="Diminuir texto">A−</button>
+          <output id="font-size-output">Normal</output>
+          <button type="button" data-font-size="1" aria-label="Aumentar texto">A+</button>
+        </div>
+      </div>
+
+      <label class="setting-row toggle-row">
+        <span>
+          <strong>Modo escuro</strong>
+          <small>Mais confortável à noite</small>
+        </span>
+        <input type="checkbox" id="theme-toggle" />
+        <span class="toggle" aria-hidden="true"></span>
+      </label>
+
+      <button class="button secondary wide" id="install-button" type="button" hidden>Instalar no celular</button>
+
+      <div class="source-note">
+        <strong>Texto bíblico</strong>
+        <p>João Ferreira de Almeida, edição histórica em domínio público, fornecida por bible-api.com.</p>
+      </div>
+    </dialog>
+
+    <dialog class="sheet launches-sheet" id="launches-sheet">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+      <p class="eyebrow">Experiências MIDAS</p>
+      <h2>Veja nossos lançamentos</h2>
+      <div class="launch-card">
+        <span class="launch-icon" aria-hidden="true">✦</span>
+        <div>
+          <strong>Promessas de Deus</strong>
+          <p>Uma palavra especial para cada momento do seu dia.</p>
+        </div>
+        <button type="button" data-route="#/promessas" data-close-dialog>Conhecer</button>
+      </div>
+      <div class="launch-card muted">
+        <span class="launch-icon" aria-hidden="true">♬</span>
+        <div>
+          <strong>Histórias para crianças</strong>
+          <p>Narrativas bíblicas que ganham vida com um toque.</p>
+        </div>
+        <span class="soon">Em breve</span>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <noscript>Ative o JavaScript para usar a Bíblia Sagrada Midas.</noscript>
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>

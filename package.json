@@ -1,0 +1,11 @@
+{
+  "name": "biblia-midas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bíblia digital mobile-first conectada aos produtos NFC da Midas.",
+  "scripts": {
+    "test": "node tests/data.test.mjs",
+    "check": "node --check assets/app.js && node --check assets/bible-data.js && node --check sw.js && npm test"
+  }
+}
