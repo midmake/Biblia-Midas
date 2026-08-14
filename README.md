@@ -7,13 +7,11 @@ Aplicação web mobile-first para a experiência física da Bíblia NFC da Midas
 - leitura dos 66 livros e 1.189 capítulos;
 - navegação por livros, capítulos e versículos;
 - busca por referência, como João 3:16;
-- experiência Promessas de Deus por tema;
 - palavra do dia;
 - favoritos e anotações salvos no aparelho;
 - compartilhamento e links diretos para versículos;
 - continuidade da última leitura;
 - modo escuro e três tamanhos de texto;
-- instalação como PWA;
 - leitura offline dos capítulos já visitados;
 - layout responsivo, otimizado primeiro para smartphones.
 
@@ -33,7 +31,7 @@ Não há dependências de produção nem etapa de compilação.
 
 1. Inicie um servidor estático nesta pasta.
 2. Abra o endereço local no navegador.
-3. Execute npm test para validar a lista dos livros e as referências das promessas.
+3. Execute npm test para validar a lista dos livros e as referências da palavra do dia.
 4. Execute npm run check para validar também a sintaxe JavaScript.
 
 ## Rotas para NFC
@@ -43,8 +41,7 @@ erros de página inexistente:
 
 - Bíblia: #/inicio
 - Lista de livros: #/biblia
-- Promessas: #/promessas
-- Promessas por tema: #/promessas/Paz
+- Palavra do dia: #/palavra-do-dia
 - Capítulo: #/leitura/JHN/3
 - Versículo: #/leitura/JHN/3/16
 

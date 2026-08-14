@@ -1,5 +1,5 @@
-var SHELL_CACHE = "midas-biblia-shell-v1";
-var CHAPTER_CACHE = "midas-biblia-chapters-v1";
+var SHELL_CACHE = "midas-biblia-shell-v2";
+var CHAPTER_CACHE = "midas-biblia-chapters-v2";
 var APP_SHELL = [
   "./",
   "./index.html",

@@ -1,7 +1,7 @@
 {
   "name": "Bíblia Sagrada — Midas",
   "short_name": "Bíblia Midas",
-  "description": "Leitura bíblica, promessas, favoritos e anotações.",
+  "description": "Leitura bíblica, palavra do dia, favoritos e anotações.",
   "lang": "pt-BR",
   "start_url": "./#/inicio",
   "scope": "./",

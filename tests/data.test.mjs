@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { BOOKS, PROMISES, getBook, normalizeText } from "../assets/bible-data.js";
+import { BOOKS, DAILY_VERSES, getBook, normalizeText } from "../assets/bible-data.js";
 
 assert.equal(BOOKS.length, 66, "A lista deve conter os 66 livros");
 assert.equal(
@@ -11,11 +11,11 @@ assert.equal(new Set(BOOKS.map(function (book) { return book.id; })).size, 66, "
 assert.equal(getBook("JHN").name, "João");
 assert.equal(normalizeText("João"), "joao");
 
-PROMISES.forEach(function (promise) {
-  var book = getBook(promise.bookId);
-  assert.ok(book, "Livro ausente na promessa " + promise.id);
-  assert.ok(promise.chapter >= 1 && promise.chapter <= book.chapters, "Capítulo inválido em " + promise.id);
-  assert.ok(promise.verse >= 1, "Versículo inválido em " + promise.id);
+DAILY_VERSES.forEach(function (dailyVerse) {
+  var book = getBook(dailyVerse.bookId);
+  assert.ok(book, "Livro ausente na palavra do dia " + dailyVerse.id);
+  assert.ok(dailyVerse.chapter >= 1 && dailyVerse.chapter <= book.chapters, "Capítulo inválido em " + dailyVerse.id);
+  assert.ok(dailyVerse.verse >= 1, "Versículo inválido em " + dailyVerse.id);
 });
 
-console.log("Dados bíblicos validados: 66 livros, 1.189 capítulos e " + PROMISES.length + " promessas.");
+console.log("Dados bíblicos validados: 66 livros, 1.189 capítulos e " + DAILY_VERSES.length + " palavras diárias.");

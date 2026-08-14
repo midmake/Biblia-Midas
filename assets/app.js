@@ -1,4 +1,4 @@
-import { BOOKS, PROMISES, TOPICS, formatReference, getBook, normalizeText } from "./bible-data.js";
+import { BOOKS, DAILY_VERSES, formatReference, getBook, normalizeText } from "./bible-data.js";
 
 var API_BASE = "https://bible-api.com/";
 var STORAGE = {
@@ -20,9 +20,7 @@ var state = {
   testament: "AT",
   bookFilter: "",
   savedTab: "favorites",
-  currentPromise: null,
-  promiseCategory: null,
-  installPrompt: null,
+  currentDailyWord: null,
   renderToken: 0
 };
 
@@ -125,7 +123,7 @@ function routeParts() {
 function activeNavigation(route) {
   var active = route;
   if (route === "livro" || route === "leitura") active = "biblia";
-  if (route === "promessas") active = "inicio";
+  if (route === "palavra-do-dia") active = "inicio";
   document.querySelectorAll("[data-nav]").forEach(function (button) {
     button.classList.toggle("active", button.dataset.nav === active);
   });
@@ -147,7 +145,7 @@ function openDialog(dialog) {
 function footerMarkup() {
   return [
     '<footer class="app-footer">',
-    "Uma experiência MIDAS · Tudo que toca vira ouro.<br />",
+    "Uma experiência MIDAS · Transformando momentos em ouro.<br />",
     '<button type="button" data-action="open-launches">Veja nossos lançamentos</button>',
     "</footer>"
   ].join("");
@@ -184,19 +182,27 @@ function dailyIndex(length, salt) {
   return Math.abs(seed + (salt || 0)) % length;
 }
 
+function getDailyWord() {
+  var daily = DAILY_VERSES[dailyIndex(DAILY_VERSES.length)];
+  return Object.assign({}, daily, {
+    reference: formatReference(daily.bookId, daily.chapter, daily.verse)
+  });
+}
+
 function homeMarkup() {
   var last = getLastReading();
   var lastBook = getBook(last.bookId) || getBook("JHN");
-  var daily = PROMISES[dailyIndex(PROMISES.length)];
-  var dailyBook = getBook(daily.bookId);
+  var daily = getDailyWord();
 
   return [
     '<section class="page home-page">',
     '<div class="hero">',
     '<div class="hero-date">' + escapeHtml(formatToday()) + "</div>",
-    "<h1>Uma palavra para o seu dia.</h1>",
-    "<p>Abra o coração, encontre direção e leve esta mensagem com você.</p>",
-    '<button class="button primary" type="button" data-route="#/promessas">Receber uma promessa</button>',
+    '<p class="hero-label">Palavra do dia</p>',
+    "<h1>" + escapeHtml(daily.title) + "</h1>",
+    '<blockquote class="hero-verse">“' + escapeHtml(daily.text) + '”</blockquote>',
+    '<cite class="hero-reference">' + escapeHtml(daily.reference) + "</cite>",
+    '<button class="button primary" type="button" data-route="#/palavra-do-dia">Abrir palavra do dia</button>',
     "</div>",
     '<section class="section" aria-labelledby="continue-title">',
     '<div class="section-header"><h2 id="continue-title">Continue de onde parou</h2></div>',
@@ -210,11 +216,11 @@ function homeMarkup() {
     '<section class="section" aria-labelledby="explore-title">',
     '<div class="section-header"><h2 id="explore-title">Para este momento</h2></div>',
     '<div class="quick-grid">',
-    '<button class="quick-card featured" type="button" data-route="#/promessas">',
-    '<span class="card-icon" aria-hidden="true">✦</span><strong>Promessas de Deus</strong><small>Toque e receba uma palavra</small>',
+    '<button class="quick-card featured" type="button" data-route="#/palavra-do-dia">',
+    '<span class="card-icon" aria-hidden="true">☀</span><strong>Palavra do dia</strong><small>' + escapeHtml(formatToday()) + "</small>",
     "</button>",
-    '<button class="quick-card" type="button" data-route="#/leitura/' + daily.bookId + "/" + daily.chapter + "/" + daily.verse + '">',
-    '<span class="card-icon" aria-hidden="true">☀</span><strong>Palavra do dia</strong><small>' + escapeHtml(dailyBook.name + " " + daily.chapter + ":" + daily.verse) + "</small>",
+    '<button class="quick-card" type="button" data-route="#/biblia">',
+    '<span class="card-icon" aria-hidden="true">✝</span><strong>Bíblia Sagrada</strong><small>Escolha um livro e capítulo</small>',
     "</button>",
     '<button class="quick-card" type="button" data-route="#/buscar">',
     '<span class="card-icon" aria-hidden="true">⌕</span><strong>Encontrar passagem</strong><small>Busque por livro e versículo</small>',
@@ -471,7 +477,7 @@ async function renderReader(bookId, chapterValue, requestedVerse) {
 function searchMarkup() {
   return [
     '<section class="page search-page">',
-    '<header class="page-heading"><p class="eyebrow">Encontre uma palavra</p><h1>O que você procura?</h1><p>Digite uma referência ou escolha um tema para este momento.</p></header>',
+    '<header class="page-heading"><p class="eyebrow">Encontre uma palavra</p><h1>O que você procura?</h1><p>Digite uma referência ou escolha uma leitura conhecida.</p></header>',
     '<form id="reference-search">',
     '<label class="search-field">',
     '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>',
@@ -481,17 +487,12 @@ function searchMarkup() {
     '<p class="search-helper">Você pode buscar “Salmos 23”, “João 3:16” ou apenas o nome de um livro.</p>',
     "</form>",
     '<div id="search-results" class="search-results"></div>',
-    '<section class="section" id="topic-section"><div class="section-header"><h2>Por tema</h2></div>',
+    '<section class="section" id="topic-section"><div class="section-header"><h2>Leituras conhecidas</h2></div>',
     '<div class="topic-list">',
-    TOPICS.map(function (topic) {
-      return [
-        '<button class="topic-card" type="button" data-route="#/promessas/' + encodeURIComponent(topic.query) + '">',
-        '<span class="topic-icon" aria-hidden="true">' + topic.icon + "</span>",
-        "<span><strong>" + escapeHtml(topic.name) + "</strong><small>" + escapeHtml(topic.description) + "</small></span>",
-        '<span aria-hidden="true">›</span>',
-        "</button>"
-      ].join("");
-    }).join(""),
+    '<button class="topic-card" type="button" data-route="#/leitura/PSA/23"><span class="topic-icon" aria-hidden="true">♙</span><span><strong>Salmo 23</strong><small>O Senhor é o meu pastor</small></span><span aria-hidden="true">›</span></button>',
+    '<button class="topic-card" type="button" data-route="#/leitura/1CO/13"><span class="topic-icon" aria-hidden="true">♡</span><span><strong>1 Coríntios 13</strong><small>O caminho do amor</small></span><span aria-hidden="true">›</span></button>',
+    '<button class="topic-card" type="button" data-route="#/leitura/MAT/5"><span class="topic-icon" aria-hidden="true">☀</span><span><strong>Mateus 5</strong><small>O Sermão do Monte</small></span><span aria-hidden="true">›</span></button>',
+    '<button class="topic-card" type="button" data-route="#/leitura/JHN/3"><span class="topic-icon" aria-hidden="true">✝</span><span><strong>João 3</strong><small>O amor de Deus</small></span><span aria-hidden="true">›</span></button>',
     "</div></section>",
     footerMarkup(),
     "</section>"
@@ -581,67 +582,27 @@ function bindSearchPage() {
   });
 }
 
-function promiseMarkup(category) {
-  var displayCategory = category || "Palavra para hoje";
+function dailyWordMarkup() {
+  var daily = getDailyWord();
+  state.currentDailyWord = daily;
   return [
-    '<section class="page promise-page">',
-    '<header class="page-heading"><p class="eyebrow">Promessas de Deus</p><h1>Uma palavra para você</h1><p>Respire, aquiete o coração e receba esta mensagem.</p></header>',
-    '<article class="promise-stage" id="promise-stage">',
-    '<div class="promise-symbol" aria-hidden="true">✦</div>',
-    '<div class="promise-category">' + escapeHtml(displayCategory) + "</div>",
-    "<h1>Preparando sua promessa...</h1>",
-    "<blockquote>Um instante para uma palavra que pode acompanhar o seu dia.</blockquote>",
+    '<section class="page daily-page">',
+    '<header class="page-heading"><p class="eyebrow">Palavra do dia</p><h1>' + escapeHtml(formatToday()) + "</h1><p>Uma mensagem bíblica escolhida para acompanhar o seu dia.</p></header>",
+    '<article class="daily-stage">',
+    '<div class="daily-symbol" aria-hidden="true">☀</div>',
+    '<div class="daily-date">' + escapeHtml(formatToday()) + "</div>",
+    "<h1>" + escapeHtml(daily.title) + "</h1>",
+    "<blockquote>“" + escapeHtml(daily.text) + "”</blockquote>",
+    "<cite>" + escapeHtml(daily.reference) + "</cite>",
     "</article>",
-    '<div class="promise-actions">',
-    '<button type="button" data-action="another-promise">Outra promessa</button>',
-    '<button type="button" data-action="share-promise">Compartilhar</button>',
+    '<div class="daily-actions">',
+    '<button type="button" data-route="#/leitura/' + daily.bookId + "/" + daily.chapter + "/" + daily.verse + '">Ler capítulo completo</button>',
+    '<button type="button" data-action="share-daily">Compartilhar</button>',
     "</div>",
-    '<p class="reader-source">As mensagens são trechos da Bíblia Sagrada, não previsões ou respostas automáticas.</p>',
+    '<p class="reader-source">A palavra muda automaticamente a cada novo dia.</p>',
     footerMarkup(),
     "</section>"
   ].join("");
-}
-
-function choosePromise(category, randomChoice) {
-  var pool = category
-    ? PROMISES.filter(function (promise) { return normalizeText(promise.category) === normalizeText(category); })
-    : PROMISES.slice();
-  if (!pool.length) pool = PROMISES.slice();
-  var index = randomChoice
-    ? Math.floor(Math.random() * pool.length)
-    : dailyIndex(pool.length, normalizeText(category || "").length);
-  if (randomChoice && state.currentPromise && pool.length > 1 && pool[index].id === state.currentPromise.meta.id) {
-    index = (index + 1) % pool.length;
-  }
-  return pool[index];
-}
-
-async function loadPromise(category, randomChoice) {
-  var meta = choosePromise(category, randomChoice);
-  var token = ++state.renderToken;
-  try {
-    var verses = await fetchChapter(meta.bookId, meta.chapter);
-    if (token !== state.renderToken || routeParts()[0] !== "promessas") return;
-    var verse = verses.find(function (item) { return item.verse === meta.verse; });
-    if (!verse) throw new Error("Promessa não encontrada.");
-    state.currentPromise = { meta: meta, verse: verse };
-    var stage = document.querySelector("#promise-stage");
-    stage.innerHTML = [
-      '<div class="promise-symbol" aria-hidden="true">✦</div>',
-      '<div class="promise-category">' + escapeHtml(meta.category) + "</div>",
-      "<h1>" + escapeHtml(meta.title) + "</h1>",
-      "<blockquote>“" + escapeHtml(verse.text) + "”</blockquote>",
-      "<cite>" + escapeHtml(verse.reference) + "</cite>"
-    ].join("");
-  } catch (error) {
-    if (token !== state.renderToken) return;
-    document.querySelector("#promise-stage").innerHTML = [
-      '<div class="promise-symbol" aria-hidden="true">↻</div>',
-      '<div class="promise-category">Tente novamente</div>',
-      "<h1>Não foi possível carregar esta palavra.</h1>",
-      "<blockquote>Confira sua conexão. As passagens já abertas continuam disponíveis sem internet.</blockquote>"
-    ].join("");
-  }
 }
 
 function savedMarkup() {
@@ -714,11 +675,8 @@ function renderRoute() {
     bindSearchPage();
   } else if (route === "salvos") {
     app.innerHTML = savedMarkup();
-  } else if (route === "promessas") {
-    state.promiseCategory = parts[1] || null;
-    state.currentPromise = null;
-    app.innerHTML = promiseMarkup(state.promiseCategory);
-    loadPromise(state.promiseCategory, false);
+  } else if (route === "palavra-do-dia") {
+    app.innerHTML = dailyWordMarkup();
   } else {
     app.innerHTML = notFoundMarkup();
   }
@@ -860,18 +818,8 @@ function handleDocumentClick(event) {
     renderReader(actionButton.dataset.book, actionButton.dataset.chapter);
   }
 
-  if (action === "another-promise") {
-    var stage = document.querySelector("#promise-stage");
-    if (stage) {
-      state.currentPromise = null;
-      stage.innerHTML = '<div class="promise-symbol" aria-hidden="true">✦</div><div class="promise-category">Uma nova palavra</div><h1>Preparando sua promessa...</h1><blockquote>Respire fundo por um instante.</blockquote>';
-      loadPromise(state.promiseCategory, true);
-    }
-  }
-
-  if (action === "share-promise") {
-    if (state.currentPromise) shareVerse(state.currentPromise.verse);
-    else showToast("Aguarde a promessa carregar");
+  if (action === "share-daily") {
+    if (state.currentDailyWord) shareVerse(state.currentDailyWord);
   }
 
   if (action === "saved-tab") {
@@ -956,20 +904,6 @@ document.querySelector("#theme-toggle").addEventListener("change", function (eve
   applyPreferences();
 });
 
-document.querySelector("#install-button").addEventListener("click", async function () {
-  if (!state.installPrompt) return;
-  state.installPrompt.prompt();
-  await state.installPrompt.userChoice;
-  state.installPrompt = null;
-  document.querySelector("#install-button").hidden = true;
-});
-
-window.addEventListener("beforeinstallprompt", function (event) {
-  event.preventDefault();
-  state.installPrompt = event;
-  document.querySelector("#install-button").hidden = false;
-});
-
 function updateConnectionStatus() {
   var pill = document.querySelector("#connection-pill");
   pill.hidden = navigator.onLine;
@@ -991,7 +925,7 @@ document.querySelectorAll("dialog").forEach(function (dialog) {
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
     navigator.serviceWorker.register("./sw.js").catch(function () {
-      // A experiência principal continua funcionando sem instalação.
+      // A leitura principal continua disponível mesmo se o cache não for registrado.
     });
   });
 }

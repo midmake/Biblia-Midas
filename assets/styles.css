@@ -357,11 +357,20 @@ p {
 }
 
 .hero-date {
-  margin-bottom: 30px;
+  margin-bottom: 22px;
   color: rgba(255, 250, 241, 0.68);
   font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero .hero-label {
+  margin-bottom: 10px;
+  color: #e3bf79;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -375,10 +384,28 @@ p {
   line-height: 0.98;
 }
 
-.hero p {
+.hero > p:not(.hero-label) {
   max-width: 34ch;
   margin-bottom: 26px;
   color: rgba(255, 250, 241, 0.76);
+}
+
+.hero-verse {
+  max-width: 37ch;
+  margin: 0 0 12px;
+  color: rgba(255, 250, 241, 0.9);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+.hero-reference {
+  display: block;
+  margin-bottom: 24px;
+  color: #e3bf79;
+  font-size: 0.74rem;
+  font-style: normal;
+  font-weight: 800;
 }
 
 .button {
@@ -934,7 +961,7 @@ p {
   line-height: 1.55;
 }
 
-.promise-stage {
+.daily-stage {
   position: relative;
   overflow: hidden;
   min-height: 450px;
@@ -948,34 +975,34 @@ p {
   text-align: center;
 }
 
-.promise-stage::before,
-.promise-stage::after {
+.daily-stage::before,
+.daily-stage::after {
   position: absolute;
   border: 1px solid rgba(240, 209, 148, 0.18);
   border-radius: 50%;
   content: "";
 }
 
-.promise-stage::before {
+.daily-stage::before {
   top: -110px;
   right: -100px;
   width: 280px;
   height: 280px;
 }
 
-.promise-stage::after {
+.daily-stage::after {
   right: -40px;
   bottom: -90px;
   width: 190px;
   height: 190px;
 }
 
-.promise-stage > * {
+.daily-stage > * {
   position: relative;
   z-index: 1;
 }
 
-.promise-symbol {
+.daily-symbol {
   display: grid;
   place-items: center;
   width: 54px;
@@ -987,7 +1014,7 @@ p {
   font-size: 1.35rem;
 }
 
-.promise-category {
+.daily-date {
   color: #e3bf79;
   font-size: 0.7rem;
   font-weight: 900;
@@ -995,7 +1022,7 @@ p {
   text-transform: uppercase;
 }
 
-.promise-stage h1 {
+.daily-stage h1 {
   margin: 12px auto 22px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2rem, 9vw, 3.25rem);
@@ -1004,14 +1031,14 @@ p {
   line-height: 1.05;
 }
 
-.promise-stage blockquote {
+.daily-stage blockquote {
   margin: 0 auto 18px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.16rem;
   line-height: 1.72;
 }
 
-.promise-stage cite {
+.daily-stage cite {
   display: block;
   color: rgba(255, 250, 241, 0.72);
   font-size: 0.76rem;
@@ -1019,14 +1046,14 @@ p {
   font-weight: 800;
 }
 
-.promise-actions {
+.daily-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 18px;
 }
 
-.promise-actions button {
+.daily-actions button {
   min-height: 48px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -1035,7 +1062,7 @@ p {
   font-weight: 800;
 }
 
-.promise-actions button:first-child {
+.daily-actions button:first-child {
   border-color: var(--primary);
   background: var(--primary);
   color: #fff;

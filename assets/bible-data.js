@@ -68,40 +68,31 @@ export const BOOKS = [
   { id: "REV", name: "Apocalipse", short: "Ap", apiName: "Revelation", chapters: 22, testament: "NT", aliases: ["apocalipse", "apo", "ap"] }
 ];
 
-export const PROMISES = [
-  { id: "isa-41-10", category: "Força", title: "Você não está sozinho", bookId: "ISA", chapter: 41, verse: 10 },
-  { id: "psa-46-1", category: "Proteção", title: "Refúgio para hoje", bookId: "PSA", chapter: 46, verse: 1 },
-  { id: "jer-29-11", category: "Esperança", title: "Há um futuro preparado", bookId: "JER", chapter: 29, verse: 11 },
-  { id: "php-4-6", category: "Paz", title: "Entregue suas preocupações", bookId: "PHP", chapter: 4, verse: 6 },
-  { id: "php-4-7", category: "Paz", title: "Paz além do entendimento", bookId: "PHP", chapter: 4, verse: 7 },
-  { id: "psa-23-4", category: "Proteção", title: "Coragem no vale", bookId: "PSA", chapter: 23, verse: 4 },
-  { id: "pro-3-5", category: "Caminho", title: "Confie de todo o coração", bookId: "PRO", chapter: 3, verse: 5 },
-  { id: "pro-3-6", category: "Caminho", title: "Ele endireitará suas veredas", bookId: "PRO", chapter: 3, verse: 6 },
-  { id: "mat-11-28", category: "Descanso", title: "Há descanso para você", bookId: "MAT", chapter: 11, verse: 28 },
-  { id: "rom-8-28", category: "Esperança", title: "Deus age em todas as coisas", bookId: "ROM", chapter: 8, verse: 28 },
-  { id: "jos-1-9", category: "Força", title: "Seja forte e corajoso", bookId: "JOS", chapter: 1, verse: 9 },
-  { id: "psa-37-5", category: "Caminho", title: "Entregue o seu caminho", bookId: "PSA", chapter: 37, verse: 5 },
-  { id: "isa-40-31", category: "Força", title: "Forças renovadas", bookId: "ISA", chapter: 40, verse: 31 },
-  { id: "jhn-14-27", category: "Paz", title: "Uma paz que permanece", bookId: "JHN", chapter: 14, verse: 27 },
-  { id: "psa-121-7", category: "Proteção", title: "Guardado em todo caminho", bookId: "PSA", chapter: 121, verse: 7 },
-  { id: "1co-13-7", category: "Amor", title: "O amor permanece", bookId: "1CO", chapter: 13, verse: 7 },
-  { id: "isa-43-2", category: "Proteção", title: "Presença em meio às águas", bookId: "ISA", chapter: 43, verse: 2 },
-  { id: "psa-147-3", category: "Consolo", title: "Cuidado para o coração", bookId: "PSA", chapter: 147, verse: 3 },
-  { id: "mat-6-33", category: "Caminho", title: "O essencial em primeiro lugar", bookId: "MAT", chapter: 6, verse: 33 },
-  { id: "rom-15-13", category: "Esperança", title: "Transborde em esperança", bookId: "ROM", chapter: 15, verse: 13 },
-  { id: "psa-128-1", category: "Família", title: "Bênção para o lar", bookId: "PSA", chapter: 128, verse: 1 },
-  { id: "jos-24-15", category: "Família", title: "Uma casa que serve ao Senhor", bookId: "JOS", chapter: 24, verse: 15 },
-  { id: "1jn-4-19", category: "Amor", title: "Amados primeiro", bookId: "1JN", chapter: 4, verse: 19 },
-  { id: "deu-31-8", category: "Força", title: "Ele vai adiante de você", bookId: "DEU", chapter: 31, verse: 8 }
-];
-
-export const TOPICS = [
-  { name: "Ansiedade", icon: "◌", query: "Paz", description: "Palavras para respirar e confiar" },
-  { name: "Força", icon: "✦", query: "Força", description: "Coragem para continuar" },
-  { name: "Esperança", icon: "☀", query: "Esperança", description: "Um futuro cheio de propósito" },
-  { name: "Proteção", icon: "⌂", query: "Proteção", description: "Deus presente em todo caminho" },
-  { name: "Família", icon: "♡", query: "Família", description: "Bênçãos para o seu lar" },
-  { name: "Amor", icon: "∞", query: "Amor", description: "O amor que permanece" }
+export const DAILY_VERSES = [
+  { id: "isa-41-10", title: "Você não está sozinho", bookId: "ISA", chapter: 41, verse: 10, text: "Não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça." },
+  { id: "psa-46-1", title: "Refúgio para hoje", bookId: "PSA", chapter: 46, verse: 1, text: "Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia." },
+  { id: "jer-29-11", title: "Há um futuro preparado", bookId: "JER", chapter: 29, verse: 11, text: "Porque eu bem sei os pensamentos que penso de vós, diz o Senhor; pensamentos de paz, e não de mal, para vos dar o fim que esperais." },
+  { id: "php-4-6", title: "Entregue suas preocupações", bookId: "PHP", chapter: 4, verse: 6, text: "Não estejais inquietos por coisa alguma; antes as vossas petições sejam em tudo conhecidas diante de Deus pela oração e súplicas, com ação de graças." },
+  { id: "php-4-7", title: "Paz além do entendimento", bookId: "PHP", chapter: 4, verse: 7, text: "E a paz de Deus, que excede todo o entendimento, guardará os vossos corações e os vossos sentimentos em Cristo Jesus." },
+  { id: "psa-23-4", title: "Coragem no vale", bookId: "PSA", chapter: 23, verse: 4, text: "Ainda que eu andasse pelo vale da sombra da morte, não temeria mal algum, porque tu estás comigo; a tua vara e o teu cajado me consolam." },
+  { id: "pro-3-5", title: "Confie de todo o coração", bookId: "PRO", chapter: 3, verse: 5, text: "Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento." },
+  { id: "pro-3-6", title: "Ele endireitará suas veredas", bookId: "PRO", chapter: 3, verse: 6, text: "Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas." },
+  { id: "mat-11-28", title: "Há descanso para você", bookId: "MAT", chapter: 11, verse: 28, text: "Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei." },
+  { id: "rom-8-28", title: "Deus age em todas as coisas", bookId: "ROM", chapter: 8, verse: 28, text: "E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus." },
+  { id: "jos-1-9", title: "Seja forte e corajoso", bookId: "JOS", chapter: 1, verse: 9, text: "Esforça-te, e tem bom ânimo; não temas, nem te espantes, porque o Senhor teu Deus é contigo, por onde quer que andares." },
+  { id: "psa-37-5", title: "Entregue o seu caminho", bookId: "PSA", chapter: 37, verse: 5, text: "Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará." },
+  { id: "isa-40-31", title: "Forças renovadas", bookId: "ISA", chapter: 40, verse: 31, text: "Mas os que esperam no Senhor renovarão as forças, subirão com asas como águias; correrão, e não se cansarão." },
+  { id: "jhn-14-27", title: "Uma paz que permanece", bookId: "JHN", chapter: 14, verse: 27, text: "Deixo-vos a paz, a minha paz vos dou; não se turbe o vosso coração, nem se atemorize." },
+  { id: "psa-121-7", title: "Guardado em todo caminho", bookId: "PSA", chapter: 121, verse: 7, text: "O Senhor te guardará de todo o mal; ele guardará a tua alma." },
+  { id: "1co-13-7", title: "O amor permanece", bookId: "1CO", chapter: 13, verse: 7, text: "Tudo sofre, tudo crê, tudo espera, tudo suporta." },
+  { id: "isa-43-2", title: "Presença em meio às águas", bookId: "ISA", chapter: 43, verse: 2, text: "Quando passares pelas águas estarei contigo, e quando pelos rios, eles não te submergirão." },
+  { id: "psa-147-3", title: "Cuidado para o coração", bookId: "PSA", chapter: 147, verse: 3, text: "Sara os quebrantados de coração, e liga-lhes as feridas." },
+  { id: "mat-6-33", title: "O essencial em primeiro lugar", bookId: "MAT", chapter: 6, verse: 33, text: "Buscai primeiro o reino de Deus, e a sua justiça, e todas estas coisas vos serão acrescentadas." },
+  { id: "rom-15-13", title: "Transborde em esperança", bookId: "ROM", chapter: 15, verse: 13, text: "O Deus de esperança vos encha de todo o gozo e paz, para que abundeis em esperança." },
+  { id: "psa-128-1", title: "Bênção para o lar", bookId: "PSA", chapter: 128, verse: 1, text: "Bem-aventurado aquele que teme ao Senhor e anda nos seus caminhos." },
+  { id: "jos-24-15", title: "Uma casa que serve ao Senhor", bookId: "JOS", chapter: 24, verse: 15, text: "Eu e a minha casa serviremos ao Senhor." },
+  { id: "1jn-4-19", title: "Amados primeiro", bookId: "1JN", chapter: 4, verse: 19, text: "Nós o amamos porque ele nos amou primeiro." },
+  { id: "deu-31-8", title: "Ele vai adiante de você", bookId: "DEU", chapter: 31, verse: 8, text: "O Senhor é aquele que vai adiante de ti; ele será contigo, não te deixará, nem te desamparará." }
 ];
 
 export function getBook(bookId) {
