@@ -8,7 +8,7 @@
   <style>
     :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     * { box-sizing: border-box; }
-    body { margin: 0; min-width: 320px; min-height: 100vh; background: #101b18; color: #f7f2e8; }
+    body { margin: 0; min-width: 320px; min-height: 100vh; background: #101b18; color: #f7f2e8; transition: background .25s ease, color .25s ease; }
     button { color: inherit; font: inherit; }
     .preview { width: min(100%, 560px); min-height: 100vh; margin: auto; padding: max(24px, env(safe-area-inset-top)) 20px max(30px, env(safe-area-inset-bottom)); }
     .preview > p { margin: 0 0 8px; color: #a9bab4; font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
@@ -17,6 +17,11 @@
     .controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
     .controls button { padding: 10px 13px; border: 1px solid #33483f; border-radius: 999px; background: #172621; cursor: pointer; font-size: .76rem; font-weight: 800; }
     .controls button.active { border-color: #d6b36e; background: #2c4239; color: #f4d79e; }
+    .theme-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 22px; }
+    .theme-row span { color: #a9bab4; font-size: .76rem; font-weight: 800; }
+    .theme-switch { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: #172621; }
+    .theme-switch button { padding: 8px 12px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; font-size: .72rem; font-weight: 850; }
+    .theme-switch button.active { background: #2c4239; color: #f4d79e; }
     .mission { margin-top: 24px; padding: 22px; border: 1px solid #33483f; border-radius: 22px; background: #172621; }
     .mission strong { display: block; margin-bottom: 5px; font-family: Georgia, "Times New Roman", serif; font-size: 1.2rem; font-weight: 500; }
     .mission span { color: #a9bab4; font-size: .8rem; }
@@ -36,11 +41,33 @@
     .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
     .actions button { min-height: 48px; border: 1px solid #426158; border-radius: 999px; background: transparent; cursor: pointer; font-weight: 850; }
     .actions .share { border-color: #e4c681; background: #f5e6c7; color: #1d3e34; }
+    .mute { position: absolute; z-index: 2; top: 14px; right: 14px; display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid #426158; border-radius: 50%; background: rgba(16,27,24,.35); cursor: pointer; font-size: 1rem; }
     .spark { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #f3d48d; opacity: 0; }
     .celebration.visible .spark { animation: float 1.7s var(--delay) ease-out forwards; }
     .s1 { top: 18%; left: 13%; --delay: .15s; } .s2 { top: 12%; right: 18%; --delay: .35s; }
     .s3 { top: 45%; left: 8%; --delay: .48s; } .s4 { top: 38%; right: 10%; --delay: .22s; }
     .s5 { bottom: 18%; left: 20%; --delay: .62s; } .s6 { bottom: 15%; right: 17%; --delay: .52s; }
+    body[data-theme="light"] { color-scheme: light; background: #f6f1e7; color: #18342c; }
+    body[data-theme="light"] .preview > p,
+    body[data-theme="light"] .preview > small,
+    body[data-theme="light"] .theme-row span,
+    body[data-theme="light"] .mission span { color: #65746f; }
+    body[data-theme="light"] .controls button { border-color: #ded8cc; background: #fffdf8; }
+    body[data-theme="light"] .controls button.active { border-color: #af8232; background: #f1e3c5; color: #694b18; }
+    body[data-theme="light"] .theme-switch { background: #eee7da; }
+    body[data-theme="light"] .theme-switch button.active { background: #fffdf8; color: #18342c; box-shadow: 0 2px 10px rgba(35,51,45,.08); }
+    body[data-theme="light"] .mission { border-color: #ded8cc; background: #fffdf8; box-shadow: 0 8px 28px rgba(35,51,45,.07); }
+    body[data-theme="light"] .track { background: #eee7da; }
+    body[data-theme="light"] .open { background: #1e493c; color: white; }
+    body[data-theme="light"] .celebration { background: rgba(238,231,218,.82); }
+    body[data-theme="light"] .glow { background: radial-gradient(circle, rgba(175,130,50,.2), rgba(241,227,197,.14) 48%, transparent 70%); }
+    body[data-theme="light"] .card { border-color: #d6c69f; background: linear-gradient(155deg, #fffaf0, #ead8b7); color: #18342c; box-shadow: 0 26px 80px rgba(58,48,28,.2); }
+    body[data-theme="light"] .cross { border-color: #c7aa6d; background: #f1e3c5; color: #1e493c; }
+    body[data-theme="light"] .kicker { color: #8d6725; }
+    body[data-theme="light"] .card .message { color: #52655e; }
+    body[data-theme="light"] .actions button { border-color: #cdbd9e; }
+    body[data-theme="light"] .actions .share { border-color: #1e493c; background: #1e493c; color: white; }
+    body[data-theme="light"] .mute { border-color: #cdbd9e; background: rgba(255,255,255,.52); }
     @keyframes rise { to { transform: none; opacity: 1; } }
     @keyframes glow { 45%,100% { transform: scale(1); opacity: 1; } }
     @keyframes float { 0% { opacity: 0; transform: translateY(15px) scale(.5); } 35% { opacity: .9; } 100% { opacity: 0; transform: translateY(-55px) scale(1.25); } }
@@ -52,6 +79,13 @@
     <p>Demonstração separada</p>
     <h1>Marco da missão</h1>
     <small>Escolha um marco e abra a comemoração. Esta página não altera nem conta acessos da Bíblia.</small>
+    <div class="theme-row">
+      <span>Aparência da demonstração</span>
+      <div class="theme-switch" aria-label="Escolher tema">
+        <button type="button" data-theme="light">Claro</button>
+        <button class="active" type="button" data-theme="dark">Escuro</button>
+      </div>
+    </div>
     <div class="controls" aria-label="Escolher marco">
       <button type="button" data-value="1000">1 mil</button>
       <button type="button" data-value="5000">5 mil</button>
@@ -70,6 +104,7 @@
   <section class="celebration" id="celebration" role="dialog" aria-modal="true" aria-labelledby="milestone-title">
     <div class="glow" aria-hidden="true"></div>
     <article class="card">
+      <button class="mute" id="mute" type="button" aria-label="Silenciar efeito sonoro" title="Silenciar efeito sonoro">♪</button>
       <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i><i class="spark s5"></i><i class="spark s6"></i>
       <div class="cross" aria-hidden="true">✝</div>
       <p class="kicker">Um novo marco da nossa missão</p>
@@ -84,6 +119,7 @@
   <script>
     const labels = {1000:'1 mil',5000:'5 mil',10000:'10 mil',25000:'25 mil',50000:'50 mil',100000:'100 mil'};
     let selected = 10000;
+    let muted = false;
     const modal = document.querySelector('#celebration');
     function update(value) {
       selected = Number(value);
@@ -92,14 +128,114 @@
       document.querySelector('#progress').style.width = Math.min(100, selected / 1000) + '%';
       document.querySelectorAll('[data-value]').forEach(button => button.classList.toggle('active', Number(button.dataset.value) === selected));
     }
+    function setTheme(theme) {
+      document.body.dataset.theme = theme;
+      document.querySelectorAll('[data-theme]').forEach(button => button.classList.toggle('active', button.dataset.theme === theme));
+    }
+    function playChime() {
+      if (muted) return;
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const context = new AudioContext();
+      const master = context.createGain();
+      master.gain.setValueAtTime(.0001, context.currentTime);
+      master.gain.exponentialRampToValueAtTime(.13, context.currentTime + .025);
+      master.gain.exponentialRampToValueAtTime(.0001, context.currentTime + 1.15);
+      master.connect(context.destination);
+      [659.25, 783.99, 987.77].forEach((frequency, index) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = frequency;
+        gain.gain.value = .55 / (index + 1);
+        oscillator.connect(gain).connect(master);
+        oscillator.start(context.currentTime + index * .09);
+        oscillator.stop(context.currentTime + .9 + index * .09);
+      });
+      setTimeout(() => context.close(), 1400);
+    }
+    function roundedRect(context, x, y, width, height, radius) {
+      context.beginPath();
+      context.roundRect(x, y, width, height, radius);
+      context.fill();
+    }
+    function wrapText(context, text, x, y, maxWidth, lineHeight) {
+      const words = text.split(' ');
+      const lines = [];
+      let line = '';
+      words.forEach(word => {
+        const test = line ? line + ' ' + word : word;
+        if (context.measureText(test).width > maxWidth && line) { lines.push(line); line = word; } else line = test;
+      });
+      if (line) lines.push(line);
+      lines.forEach((item, index) => context.fillText(item, x, y + index * lineHeight));
+      return lines.length;
+    }
+    async function createShareImage() {
+      const light = document.body.dataset.theme === 'light';
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1350;
+      const context = canvas.getContext('2d');
+      const background = context.createLinearGradient(0, 0, 1080, 1350);
+      background.addColorStop(0, light ? '#fffaf0' : '#1e4136');
+      background.addColorStop(1, light ? '#ead8b7' : '#101f1b');
+      context.fillStyle = background;
+      context.fillRect(0, 0, 1080, 1350);
+      const glow = context.createRadialGradient(850, 150, 20, 850, 150, 430);
+      glow.addColorStop(0, light ? 'rgba(175,130,50,.22)' : 'rgba(214,179,110,.2)');
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      context.fillStyle = glow;
+      context.fillRect(0, 0, 1080, 700);
+      context.fillStyle = light ? '#f1e3c5' : '#24483d';
+      roundedRect(context, 438, 142, 204, 230, 34);
+      context.fillStyle = light ? '#1e493c' : '#ffffff';
+      context.fillRect(518, 180, 44, 150);
+      context.fillRect(474, 228, 132, 44);
+      context.textAlign = 'center';
+      context.fillStyle = light ? '#8d6725' : '#e5c178';
+      context.font = '900 25px Arial, sans-serif';
+      context.fillText('UM NOVO MARCO DA NOSSA MISSÃO', 540, 460);
+      context.fillStyle = light ? '#18342c' : '#fffaf1';
+      context.font = '400 104px Georgia, serif';
+      context.fillText(labels[selected], 540, 610);
+      context.font = '400 68px Georgia, serif';
+      context.fillText('pessoas alcançadas', 540, 700);
+      context.fillStyle = light ? '#52655e' : '#c6d1cd';
+      context.font = '400 34px Arial, sans-serif';
+      wrapText(context, 'A Palavra continua chegando mais longe. Obrigado por fazer parte desta missão.', 540, 825, 770, 52);
+      context.strokeStyle = light ? '#c7aa6d' : '#426158';
+      context.lineWidth = 2;
+      context.beginPath(); context.moveTo(190, 1055); context.lineTo(890, 1055); context.stroke();
+      context.fillStyle = light ? '#65746f' : '#a9bab4';
+      context.font = '800 27px Arial, sans-serif';
+      context.fillText('NOSSA MISSÃO É ALCANÇAR 100 MIL PESSOAS', 540, 1125);
+      return new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
+    }
     document.querySelector('.controls').addEventListener('click', event => { if (event.target.dataset.value) update(event.target.dataset.value); });
-    document.querySelector('#open').addEventListener('click', () => { modal.classList.add('visible'); document.querySelector('#close').focus(); });
+    document.querySelector('.theme-switch').addEventListener('click', event => { if (event.target.dataset.theme) setTheme(event.target.dataset.theme); });
+    document.querySelector('#open').addEventListener('click', () => { modal.classList.add('visible'); playChime(); document.querySelector('#close').focus(); });
     document.querySelector('#close').addEventListener('click', () => modal.classList.remove('visible'));
+    document.querySelector('#mute').addEventListener('click', () => {
+      muted = !muted;
+      document.querySelector('#mute').textContent = muted ? '×' : '♪';
+      document.querySelector('#mute').setAttribute('aria-label', muted ? 'Ativar efeito sonoro' : 'Silenciar efeito sonoro');
+    });
     document.querySelector('#share').addEventListener('click', async () => {
-      const data = { title: 'A Palavra continua chegando mais longe', text: `${labels[selected]} pessoas já foram alcançadas pela Palavra. Ajude-nos na missão de chegar a 100 mil.`, url: 'https://midmake.github.io/Biblia-Midas/' };
-      if (navigator.share) await navigator.share(data).catch(() => {}); else await navigator.clipboard.writeText(`${data.text} ${data.url}`);
+      const blob = await createShareImage();
+      const file = new File([blob], `marco-${selected}-pessoas.png`, { type: 'image/png' });
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ title: 'A Palavra continua chegando mais longe', files: [file] }).catch(() => {});
+      } else {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = file.name;
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      }
     });
     modal.addEventListener('click', event => { if (event.target === modal) modal.classList.remove('visible'); });
+    setTheme('dark');
   </script>
 </body>
 </html>
