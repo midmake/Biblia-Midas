@@ -208,6 +208,13 @@ p {
   box-shadow: inset 4px 0 0 color-mix(in srgb, var(--gold) 50%, transparent);
 }
 
+:root[data-theme="dark"] .brand-mark {
+  border-color: #426158;
+  background: #24483d;
+  color: #ffffff;
+  box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.08);
+}
+
 .brand-cross {
   width: 22px;
   height: 22px;
@@ -349,9 +356,9 @@ p {
   padding: 30px 26px;
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.07), transparent 45%),
-    var(--primary-strong);
-  color: #fffaf1;
+    radial-gradient(circle at 90% 6%, rgba(175, 130, 50, 0.16), transparent 15rem),
+    linear-gradient(145deg, #f8f0df, #ead8b7);
+  color: #18342c;
   box-shadow: var(--shadow);
 }
 
@@ -377,7 +384,7 @@ p {
 
 .hero-date {
   margin-bottom: 22px;
-  color: rgba(255, 250, 241, 0.68);
+  color: #7d6a48;
   font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -386,7 +393,7 @@ p {
 
 .hero .hero-label {
   margin-bottom: 10px;
-  color: #e3bf79;
+  color: #8d6725;
   font-size: 0.7rem;
   font-weight: 900;
   letter-spacing: 0.16em;
@@ -406,13 +413,13 @@ p {
 .hero > p:not(.hero-label) {
   max-width: 34ch;
   margin-bottom: 26px;
-  color: rgba(255, 250, 241, 0.76);
+  color: #52655e;
 }
 
 .hero-verse {
   max-width: 37ch;
   margin: 0 0 12px;
-  color: rgba(255, 250, 241, 0.9);
+  color: #26463c;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1rem;
   line-height: 1.62;
@@ -421,7 +428,7 @@ p {
 .hero-reference {
   display: block;
   margin-bottom: 24px;
-  color: #e3bf79;
+  color: #8d6725;
   font-size: 0.74rem;
   font-style: normal;
   font-weight: 800;
@@ -1197,10 +1204,9 @@ p {
 .midas-signature {
   width: min(250px, 72vw);
   margin: 0 auto 14px;
-  padding: 16px 22px;
-  border: 1px solid color-mix(in srgb, var(--gold) 35%, var(--line));
-  border-radius: 16px;
-  background: #fbf4ee;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .midas-signature img {
@@ -1212,8 +1218,11 @@ p {
 .midas-signature.compact {
   width: 118px;
   margin: 0 0 18px;
-  padding: 9px 13px;
-  border-radius: 12px;
+  padding: 0;
+}
+
+:root[data-theme="dark"] .midas-signature img {
+  filter: brightness(0) invert(1);
 }
 
 .footer-email {
