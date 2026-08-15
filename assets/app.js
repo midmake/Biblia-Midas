@@ -145,8 +145,15 @@ function openDialog(dialog) {
 function footerMarkup() {
   return [
     '<footer class="app-footer">',
-    "Uma experiência MIDAS · Transformando momentos em ouro.<br />",
-    '<button type="button" data-action="open-launches">Veja nossos lançamentos</button>',
+    '<strong>Uma experiência MIDAS</strong>',
+    '<span>Transformando momentos em ouro.</span>',
+    '<nav class="institutional-links" aria-label="Informações institucionais">',
+    '<button type="button" data-route="#/faq">FAQ</button>',
+    '<button type="button" data-route="#/privacidade">Política de Privacidade</button>',
+    '<button type="button" data-route="#/termos">Termos de Uso</button>',
+    '<button type="button" data-route="#/creditos">Créditos do texto bíblico</button>',
+    '</nav>',
+    '<button class="launches-link" type="button" data-action="open-launches">Veja nossos lançamentos</button>',
     "</footer>"
   ].join("");
 }
@@ -202,7 +209,6 @@ function homeMarkup() {
     "<h1>" + escapeHtml(daily.title) + "</h1>",
     '<blockquote class="hero-verse">“' + escapeHtml(daily.text) + '”</blockquote>',
     '<cite class="hero-reference">' + escapeHtml(daily.reference) + "</cite>",
-    '<button class="button primary" type="button" data-route="#/palavra-do-dia">Abrir palavra do dia</button>',
     "</div>",
     '<section class="section" aria-labelledby="continue-title">',
     '<div class="section-header"><h2 id="continue-title">Continue de onde parou</h2></div>',
@@ -216,9 +222,6 @@ function homeMarkup() {
     '<section class="section" aria-labelledby="explore-title">',
     '<div class="section-header"><h2 id="explore-title">Para este momento</h2></div>',
     '<div class="quick-grid">',
-    '<button class="quick-card featured" type="button" data-route="#/palavra-do-dia">',
-    '<span class="card-icon" aria-hidden="true">☀</span><strong>Palavra do dia</strong><small>' + escapeHtml(formatToday()) + "</small>",
-    "</button>",
     '<button class="quick-card" type="button" data-route="#/biblia">',
     '<span class="card-icon" aria-hidden="true">✝</span><strong>Bíblia Sagrada</strong><small>Escolha um livro e capítulo</small>',
     "</button>",
@@ -398,7 +401,6 @@ function readerShellMarkup(book, chapter) {
     '<button type="button" ' + (next ? 'data-route="#/leitura/' + next.bookId + "/" + next.chapter + '"' : "disabled") + ' aria-label="Próximo capítulo">›</button>',
     "</div>",
     '<article class="reader" id="reader-content">' + skeletonMarkup() + "</article>",
-    '<p class="reader-source">João Ferreira de Almeida · edição histórica em domínio público</p>',
     footerMarkup(),
     "</section>"
   ].join("");
@@ -605,6 +607,68 @@ function dailyWordMarkup() {
   ].join("");
 }
 
+function institutionalMarkup(kind) {
+  var pages = {
+    faq: {
+      eyebrow: "Ajuda",
+      title: "Perguntas frequentes",
+      content: [
+        '<details open><summary>A Bíblia Midas é gratuita?</summary><p>Sim. O acesso à plataforma de leitura é gratuito.</p></details>',
+        '<details><summary>Preciso criar uma conta?</summary><p>Não. Favoritos, anotações, preferências e continuidade de leitura ficam armazenados localmente no navegador deste aparelho.</p></details>',
+        '<details><summary>Por que alguns capítulos precisam de internet?</summary><p>O texto dos capítulos é carregado por um serviço externo. Capítulos já visitados podem permanecer disponíveis no cache do navegador.</p></details>',
+        '<details><summary>Como funcionam favoritos e anotações?</summary><p>Toque em um versículo para salvá-lo ou fazer uma anotação. Esses dados não são enviados à MIDAS e podem ser perdidos se os dados do navegador forem apagados.</p></details>',
+        '<details><summary>Qual texto bíblico é utilizado?</summary><p>Consulte a página <button class="text-link" type="button" data-route="#/creditos">Créditos do texto bíblico</button>.</p></details>'
+      ].join("")
+    },
+    privacidade: {
+      eyebrow: "Institucional",
+      title: "Política de Privacidade",
+      content: [
+        '<p class="legal-updated">Última atualização: 14 de agosto de 2026.</p>',
+        '<h2>1. Sobre esta plataforma</h2><p>A Bíblia Sagrada Midas é uma plataforma digital de acesso gratuito, desenvolvida e mantida pela MIDAS. A interface, a identidade visual, a organização, o código, os recursos e a experiência da plataforma são de uso exclusivo e constituem propriedade intelectual da MIDAS, ressalvados o texto bíblico e conteúdos de terceiros identificados nos créditos.</p>',
+        '<h2>2. Dados armazenados no aparelho</h2><p>Favoritos, anotações, preferências de aparência e histórico de leitura são armazenados localmente no navegador. A MIDAS não recebe nem mantém esses dados em seus servidores nesta versão da plataforma.</p>',
+        '<h2>3. Dados técnicos e serviços externos</h2><p>Para entregar os capítulos bíblicos e hospedar a aplicação, serviços técnicos de terceiros podem processar informações necessárias à conexão, como endereço IP, tipo de navegador, data, horário e registros de segurança, conforme as políticas desses fornecedores.</p>',
+        '<h2>4. Cookies e armazenamento local</h2><p>A plataforma não utiliza cookies publicitários próprios. Utiliza armazenamento local e cache para manter preferências, dados salvos e melhorar a disponibilidade da leitura.</p>',
+        '<h2>5. Compartilhamento</h2><p>A MIDAS não vende dados pessoais. Informações técnicas podem ser tratadas pelos provedores indispensáveis ao funcionamento e à segurança da plataforma, dentro das finalidades descritas nesta política.</p>',
+        '<h2>6. Controle do usuário</h2><p>O usuário pode apagar favoritos, anotações e demais dados locais limpando os dados deste site nas configurações do navegador. Também pode impedir o armazenamento local, ciente de que alguns recursos deixarão de funcionar.</p>',
+        '<h2>7. Crianças e adolescentes</h2><p>A plataforma oferece conteúdo bíblico geral e não solicita deliberadamente cadastro ou dados pessoais de crianças e adolescentes.</p>',
+        '<h2>8. Segurança e atualizações</h2><p>Adotamos medidas razoáveis para preservar a segurança da experiência. Esta política poderá ser atualizada para refletir mudanças técnicas, jurídicas ou operacionais; a versão vigente será sempre exibida nesta página.</p>',
+        '<h2>9. Contato</h2><p>Dúvidas sobre privacidade e proteção de dados poderão ser encaminhadas pelos canais oficiais da MIDAS, quando disponibilizados na plataforma.</p>'
+      ].join("")
+    },
+    termos: {
+      eyebrow: "Institucional",
+      title: "Termos de Uso",
+      content: [
+        '<p class="legal-updated">Última atualização: 14 de agosto de 2026.</p>',
+        '<h2>1. Aceitação</h2><p>Ao acessar a Bíblia Sagrada Midas, você concorda com estes Termos de Uso e com a Política de Privacidade.</p>',
+        '<h2>2. Licença de uso</h2><p>A MIDAS concede uma licença pessoal, gratuita, limitada, não exclusiva e revogável para uso da plataforma. O acesso gratuito não transfere qualquer direito sobre a marca, o design, o código, a organização ou os recursos da aplicação.</p>',
+        '<h2>3. Propriedade intelectual</h2><p>A plataforma e seus elementos próprios pertencem exclusivamente à MIDAS. É proibido copiar, modificar, vender, sublicenciar, explorar comercialmente, remover identificações de autoria ou reproduzir a experiência sem autorização. O texto bíblico e materiais de terceiros seguem os direitos e condições indicados na página de créditos.</p>',
+        '<h2>4. Uso adequado</h2><p>O usuário não deve tentar comprometer a segurança, interferir no funcionamento, extrair dados de forma abusiva ou utilizar a plataforma para finalidade ilícita.</p>',
+        '<h2>5. Disponibilidade</h2><p>A MIDAS poderá atualizar, suspender ou modificar recursos. Embora busquemos uma experiência confiável, não garantimos funcionamento ininterrupto de serviços externos ou conexões de internet.</p>',
+        '<h2>6. Conteúdo e responsabilidade</h2><p>A plataforma oferece acesso a conteúdo bíblico para leitura e reflexão e não substitui aconselhamento profissional médico, psicológico, jurídico ou financeiro.</p>'
+      ].join("")
+    },
+    creditos: {
+      eyebrow: "Transparência",
+      title: "Créditos do texto bíblico",
+      content: [
+        '<h2>Tradução utilizada</h2><p>Esta plataforma apresenta a tradução histórica de João Ferreira de Almeida, em edição de domínio público.</p>',
+        '<h2>Fonte técnica</h2><p>Os capítulos são fornecidos por <a href="https://bible-api.com/" target="_blank" rel="noopener noreferrer">bible-api.com</a>. A MIDAS organiza a experiência de leitura, mas não reivindica autoria ou propriedade sobre o texto bíblico.</p>',
+        '<h2>Plataforma MIDAS</h2><p>Design, código, identidade visual, navegação e recursos da Bíblia Sagrada Midas são propriedade intelectual da MIDAS.</p>'
+      ].join("")
+    }
+  };
+  var page = pages[kind] || pages.faq;
+  return [
+    '<section class="page institutional-page">',
+    '<header class="page-heading"><p class="eyebrow">' + page.eyebrow + '</p><h1>' + page.title + '</h1></header>',
+    '<article class="legal-card">' + page.content + '</article>',
+    footerMarkup(),
+    '</section>'
+  ].join("");
+}
+
 function savedMarkup() {
   var favorites = getFavorites();
   var notes = getNotes();
@@ -677,6 +741,8 @@ function renderRoute() {
     app.innerHTML = savedMarkup();
   } else if (route === "palavra-do-dia") {
     app.innerHTML = dailyWordMarkup();
+  } else if (["faq", "privacidade", "termos", "creditos"].includes(route)) {
+    app.innerHTML = institutionalMarkup(route);
   } else {
     app.innerHTML = notFoundMarkup();
   }
