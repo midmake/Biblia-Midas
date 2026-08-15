@@ -1148,6 +1148,88 @@ p {
   font-weight: 800;
 }
 
+.app-footer > strong,
+.app-footer > span {
+  display: block;
+}
+
+.app-footer > span {
+  margin-top: 4px;
+}
+
+.institutional-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 12px;
+  margin: 18px auto 10px;
+}
+
+.institutional-links button,
+.app-footer .launches-link {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.legal-card {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.legal-card h2 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+
+.legal-card h2:first-child {
+  margin-top: 0;
+}
+
+.legal-card p {
+  color: var(--text-soft);
+}
+
+.legal-updated {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: .85rem;
+}
+
+.legal-card details {
+  border-bottom: 1px solid var(--line);
+  padding: 16px 0;
+}
+
+.legal-card details:first-child {
+  padding-top: 0;
+}
+
+.legal-card details:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.legal-card summary {
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.legal-card details p {
+  margin: 10px 0 0;
+}
+
+.text-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .sheet {
   width: min(calc(100% - 20px), 620px);
   max-height: min(84vh, 720px);
@@ -1358,23 +1440,6 @@ p {
 
 .toggle-row input:checked + .toggle::after {
   transform: translateX(20px);
-}
-
-.source-note {
-  margin-top: 20px;
-  padding: 16px;
-  border-radius: 15px;
-  background: var(--surface-muted);
-}
-
-.source-note strong {
-  font-size: 0.8rem;
-}
-
-.source-note p {
-  margin: 5px 0 0;
-  color: var(--text-soft);
-  font-size: 0.72rem;
 }
 
 .launch-card {
