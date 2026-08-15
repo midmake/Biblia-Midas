@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fbf8f1" />
+    <title>Prévia do contador — Bíblia Midas</title>
+    <link rel="stylesheet" href="./assets/styles.css?v=6" />
+    <style>
+      .preview-label { position: fixed; z-index: 80; top: calc(env(safe-area-inset-top) + 6px); left: 50%; padding: 4px 9px; border-radius: 999px; background: var(--gold-soft); color: var(--text); font-size: .58rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; transform: translateX(-50%); }
+      .mission-card { position: relative; overflow: hidden; width: 100%; padding: 19px 20px 17px; border: 1px solid color-mix(in srgb, var(--gold) 28%, var(--line)); border-radius: var(--radius-md); background: linear-gradient(145deg, color-mix(in srgb, var(--gold-soft) 40%, var(--surface)), var(--surface) 68%); box-shadow: var(--shadow-soft); text-align: left; }
+      .mission-card::after { position: absolute; top: -58px; right: -60px; width: 150px; height: 150px; border: 1px solid color-mix(in srgb, var(--gold) 18%, transparent); border-radius: 50%; content: ""; }
+      .mission-card > * { position: relative; z-index: 1; }
+      .mission-kicker { display: block; margin-bottom: 7px; color: var(--gold); font-size: .64rem; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+      .mission-card strong { display: block; max-width: 27ch; font-family: Georgia, "Times New Roman", serif; font-size: 1.16rem; font-weight: 500; line-height: 1.22; }
+      .mission-card p { margin: 7px 0 0; color: var(--text-soft); font-size: .73rem; }
+      .mission-progress { height: 4px; margin-top: 15px; overflow: hidden; border-radius: 99px; background: var(--surface-muted); }
+      .mission-progress span { display: block; width: 8.742%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--gold), color-mix(in srgb, var(--gold) 55%, var(--primary))); }
+      .mission-foot { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; color: var(--text-soft); font-size: .62rem; font-weight: 800; }
+      :root[data-theme="dark"] .mission-card { border-color: #3f584e; background: linear-gradient(145deg, #1d3029, #172621 70%); }
+      .demo-theme { position: fixed; z-index: 90; right: 74px; top: calc(env(safe-area-inset-top) + 14px); display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); cursor: pointer; }
+      .demo-theme svg { width: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+      .preview-note { margin-top: 10px; color: var(--text-soft); font-size: .64rem; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <span class="preview-label">Prévia · contador demonstrativo</span>
+    <div class="app-shell">
+      <header class="topbar">
+        <button class="brand-button" type="button" aria-label="Início">
+          <span class="brand-mark" aria-hidden="true"><svg class="brand-cross" viewBox="0 0 24 24"><path d="M10 3h4v6h5v4h-5v8h-4v-8H5V9h5V3Z"></path></svg></span>
+          <span><strong>Bíblia Sagrada</strong><small class="brand-provider"><span>por</span><img src="./assets/midas-wordmark.png?v=5" alt="MIDAS" /></small></span>
+        </button>
+        <button class="demo-theme" id="theme-button" type="button" aria-label="Alternar modo claro e escuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path><circle cx="12" cy="12" r="4"></circle></svg>
+        </button>
+      </header>
+      <main id="app">
+        <section class="page home-page">
+          <div class="hero">
+            <div class="hero-date">Sábado, 15 de agosto</div>
+            <p class="hero-label">Palavra do dia</p>
+            <h1>Você não está sozinho</h1>
+            <blockquote class="hero-verse">“Não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus.”</blockquote>
+            <cite class="hero-reference">Isaías 41:10</cite>
+            <button class="button primary" type="button">Abrir palavra do dia</button>
+          </div>
+          <section class="section" aria-labelledby="continue-title">
+            <div class="section-header"><h2 id="continue-title">Continue de onde parou</h2></div>
+            <button class="continue-card" type="button">
+              <span class="book-miniature">Jo</span>
+              <span><strong>João 3</strong><small>Retomar sua última leitura</small></span>
+              <span class="arrow" aria-hidden="true">›</span>
+            </button>
+          </section>
+          <section class="section" aria-labelledby="mission-title">
+            <article class="mission-card">
+              <span class="mission-kicker">Nossa missão</span>
+              <strong id="mission-title">A Palavra já chegou a 8.742 pessoas</strong>
+              <p>Juntos, queremos alcançar 100 mil pessoas.</p>
+              <div class="mission-progress" aria-label="8,742% da missão concluída"><span></span></div>
+              <div class="mission-foot"><span>8.742 alcançadas</span><span>Meta: 100 mil</span></div>
+            </article>
+            <p class="preview-note">O número acima é apenas ilustrativo nesta demonstração.</p>
+          </section>
+          <section class="section" aria-labelledby="explore-title">
+            <div class="section-header"><h2 id="explore-title">Para este momento</h2></div>
+            <div class="quick-grid">
+              <button class="quick-card featured" type="button"><span class="card-icon">☀</span><strong>Palavra do dia</strong><small>15 de agosto</small></button>
+              <button class="quick-card" type="button"><span class="card-icon">✝</span><strong>Bíblia Sagrada</strong><small>Escolha um livro e capítulo</small></button>
+              <button class="quick-card" type="button"><span class="card-icon">⌕</span><strong>Encontrar passagem</strong><small>Busque por livro e versículo</small></button>
+              <button class="quick-card" type="button"><span class="card-icon">♡</span><strong>Meus salvos</strong><small>Favoritos e anotações</small></button>
+            </div>
+          </section>
+        </section>
+      </main>
+      <nav class="bottom-nav" aria-label="Navegação principal">
+        <button class="active" type="button"><span>⌂</span><span>Início</span></button>
+        <button type="button"><span>▣</span><span>Bíblia</span></button>
+        <button type="button"><span>⌕</span><span>Buscar</span></button>
+        <button type="button"><span>♡</span><span>Salvos</span></button>
+      </nav>
+    </div>
+    <script>
+      const root = document.documentElement;
+      document.querySelector('#theme-button').addEventListener('click', () => {
+        const dark = root.dataset.theme === 'dark';
+        root.dataset.theme = dark ? 'light' : 'dark';
+        document.querySelector('meta[name="theme-color"]').content = dark ? '#fbf8f1' : '#101b18';
+      });
+    </script>
+  </body>
+</html>
