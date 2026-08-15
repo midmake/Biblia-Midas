@@ -187,12 +187,15 @@ p {
   height: 42px;
   border: 1px solid color-mix(in srgb, var(--gold) 60%, var(--line));
   border-radius: 6px 12px 12px 6px;
-  background: var(--primary);
-  color: var(--surface);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  box-shadow: inset 4px 0 0 color-mix(in srgb, var(--gold) 50%, transparent);
+  background: linear-gradient(145deg, #e7c779, #b88932);
+  color: #17352c;
+  box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.brand-cross {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
 }
 
 .topbar-actions {
@@ -406,6 +409,24 @@ p {
   font-size: 0.74rem;
   font-style: normal;
   font-weight: 800;
+}
+
+:root[data-theme="dark"] .hero {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.045), transparent 48%),
+    #17352c;
+  color: #fffaf1;
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.34);
+}
+
+:root[data-theme="dark"] .hero-date,
+:root[data-theme="dark"] .hero-verse {
+  color: rgba(255, 250, 241, 0.88);
+}
+
+:root[data-theme="dark"] .hero .hero-label,
+:root[data-theme="dark"] .hero-reference {
+  color: #e3bf79;
 }
 
 .button {
@@ -1157,6 +1178,36 @@ p {
   margin-top: 4px;
 }
 
+.midas-signature {
+  width: min(154px, 52vw);
+  margin: 0 auto 14px;
+  padding: 10px 16px;
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, var(--line));
+  border-radius: 16px;
+  background: #fbf4ee;
+}
+
+.midas-signature img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.midas-signature.compact {
+  width: 96px;
+  margin: 0 0 18px;
+  padding: 8px 11px;
+  border-radius: 12px;
+}
+
+.footer-email {
+  display: inline-block;
+  margin-top: 9px;
+  color: var(--text-soft);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
 .institutional-links {
   display: flex;
   flex-wrap: wrap;
@@ -1190,6 +1241,16 @@ p {
 
 .legal-card p {
   color: var(--text-soft);
+}
+
+.legal-card a {
+  color: var(--primary);
+  font-weight: 750;
+  text-underline-offset: 3px;
+}
+
+.institutional-heading .midas-signature {
+  margin-top: 18px;
 }
 
 .legal-updated {

@@ -1,5 +1,5 @@
-var SHELL_CACHE = "midas-biblia-shell-v3";
-var CHAPTER_CACHE = "midas-biblia-chapters-v3";
+var SHELL_CACHE = "midas-biblia-shell-v4";
+var CHAPTER_CACHE = "midas-biblia-chapters-v4";
 var APP_SHELL = [
   "./",
   "./index.html",
@@ -8,6 +8,7 @@ var APP_SHELL = [
   "./assets/styles.css",
   "./assets/app.js",
   "./assets/bible-data.js",
+  "./assets/midas-logo.png",
   "./assets/icon.svg"
 ];
 

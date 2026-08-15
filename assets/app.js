@@ -145,8 +145,10 @@ function openDialog(dialog) {
 function footerMarkup() {
   return [
     '<footer class="app-footer">',
-    '<strong>Uma experiência MIDAS</strong>',
+    '<div class="midas-signature"><img src="./assets/midas-logo.png" alt="MIDAS" /></div>',
+    '<strong>Plataforma desenvolvida e fornecida pela MIDAS</strong>',
     '<span>Transformando momentos em ouro.</span>',
+    '<a class="footer-email" href="mailto:midasstudiobr@gmail.com">midasstudiobr@gmail.com</a>',
     '<nav class="institutional-links" aria-label="Informações institucionais">',
     '<button type="button" data-route="#/faq">FAQ</button>',
     '<button type="button" data-route="#/privacidade">Política de Privacidade</button>',
@@ -624,7 +626,7 @@ function institutionalMarkup(kind) {
       eyebrow: "Institucional",
       title: "Política de Privacidade",
       content: [
-        '<p class="legal-updated">Última atualização: 14 de agosto de 2026.</p>',
+        '<p class="legal-updated">Última atualização: 15 de agosto de 2026.</p>',
         '<h2>1. Sobre esta plataforma</h2><p>A Bíblia Sagrada Midas é uma plataforma digital de acesso gratuito, desenvolvida e mantida pela MIDAS. A interface, a identidade visual, a organização, o código, os recursos e a experiência da plataforma são de uso exclusivo e constituem propriedade intelectual da MIDAS, ressalvados o texto bíblico e conteúdos de terceiros identificados nos créditos.</p>',
         '<h2>2. Dados armazenados no aparelho</h2><p>Favoritos, anotações, preferências de aparência e histórico de leitura são armazenados localmente no navegador. A MIDAS não recebe nem mantém esses dados em seus servidores nesta versão da plataforma.</p>',
         '<h2>3. Dados técnicos e serviços externos</h2><p>Para entregar os capítulos bíblicos e hospedar a aplicação, serviços técnicos de terceiros podem processar informações necessárias à conexão, como endereço IP, tipo de navegador, data, horário e registros de segurança, conforme as políticas desses fornecedores.</p>',
@@ -633,14 +635,14 @@ function institutionalMarkup(kind) {
         '<h2>6. Controle do usuário</h2><p>O usuário pode apagar favoritos, anotações e demais dados locais limpando os dados deste site nas configurações do navegador. Também pode impedir o armazenamento local, ciente de que alguns recursos deixarão de funcionar.</p>',
         '<h2>7. Crianças e adolescentes</h2><p>A plataforma oferece conteúdo bíblico geral e não solicita deliberadamente cadastro ou dados pessoais de crianças e adolescentes.</p>',
         '<h2>8. Segurança e atualizações</h2><p>Adotamos medidas razoáveis para preservar a segurança da experiência. Esta política poderá ser atualizada para refletir mudanças técnicas, jurídicas ou operacionais; a versão vigente será sempre exibida nesta página.</p>',
-        '<h2>9. Contato</h2><p>Dúvidas sobre privacidade e proteção de dados poderão ser encaminhadas pelos canais oficiais da MIDAS, quando disponibilizados na plataforma.</p>'
+        '<h2>9. Contato</h2><p>Dúvidas sobre privacidade e proteção de dados podem ser encaminhadas para <a href="mailto:midasstudiobr@gmail.com">midasstudiobr@gmail.com</a>.</p>'
       ].join("")
     },
     termos: {
       eyebrow: "Institucional",
       title: "Termos de Uso",
       content: [
-        '<p class="legal-updated">Última atualização: 14 de agosto de 2026.</p>',
+        '<p class="legal-updated">Última atualização: 15 de agosto de 2026.</p>',
         '<h2>1. Aceitação</h2><p>Ao acessar a Bíblia Sagrada Midas, você concorda com estes Termos de Uso e com a Política de Privacidade.</p>',
         '<h2>2. Licença de uso</h2><p>A MIDAS concede uma licença pessoal, gratuita, limitada, não exclusiva e revogável para uso da plataforma. O acesso gratuito não transfere qualquer direito sobre a marca, o design, o código, a organização ou os recursos da aplicação.</p>',
         '<h2>3. Propriedade intelectual</h2><p>A plataforma e seus elementos próprios pertencem exclusivamente à MIDAS. É proibido copiar, modificar, vender, sublicenciar, explorar comercialmente, remover identificações de autoria ou reproduzir a experiência sem autorização. O texto bíblico e materiais de terceiros seguem os direitos e condições indicados na página de créditos.</p>',
@@ -662,7 +664,7 @@ function institutionalMarkup(kind) {
   var page = pages[kind] || pages.faq;
   return [
     '<section class="page institutional-page">',
-    '<header class="page-heading"><p class="eyebrow">' + page.eyebrow + '</p><h1>' + page.title + '</h1></header>',
+    '<header class="page-heading institutional-heading"><p class="eyebrow">' + page.eyebrow + '</p><h1>' + page.title + '</h1><div class="midas-signature compact"><img src="./assets/midas-logo.png" alt="MIDAS" /></div></header>',
     '<article class="legal-card">' + page.content + '</article>',
     footerMarkup(),
     '</section>'
