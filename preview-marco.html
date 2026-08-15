@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#101b18" />
+  <title>Prévia do marco — Bíblia Midas</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; min-height: 100vh; background: #101b18; color: #f7f2e8; }
+    button { color: inherit; font: inherit; }
+    .preview { width: min(100%, 560px); min-height: 100vh; margin: auto; padding: max(24px, env(safe-area-inset-top)) 20px max(30px, env(safe-area-inset-bottom)); }
+    .preview > p { margin: 0 0 8px; color: #a9bab4; font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .preview > h1 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 10vw, 3.2rem); font-weight: 400; letter-spacing: -.04em; }
+    .preview > small { color: #a9bab4; line-height: 1.5; }
+    .controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .controls button { padding: 10px 13px; border: 1px solid #33483f; border-radius: 999px; background: #172621; cursor: pointer; font-size: .76rem; font-weight: 800; }
+    .controls button.active { border-color: #d6b36e; background: #2c4239; color: #f4d79e; }
+    .mission { margin-top: 24px; padding: 22px; border: 1px solid #33483f; border-radius: 22px; background: #172621; }
+    .mission strong { display: block; margin-bottom: 5px; font-family: Georgia, "Times New Roman", serif; font-size: 1.2rem; font-weight: 500; }
+    .mission span { color: #a9bab4; font-size: .8rem; }
+    .track { height: 5px; margin-top: 18px; overflow: hidden; border-radius: 999px; background: #2c4239; }
+    .track i { display: block; width: 10%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #8d6725, #e5c178); transition: width .5s ease; }
+    .open { width: 100%; min-height: 48px; margin-top: 14px; border: 0; border-radius: 999px; background: #24483d; cursor: pointer; font-weight: 850; }
+    .celebration { position: fixed; z-index: 10; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(8, 17, 14, .82); opacity: 0; pointer-events: none; transition: opacity .3s ease; backdrop-filter: blur(10px); }
+    .celebration.visible { opacity: 1; pointer-events: auto; }
+    .glow { position: absolute; width: min(76vw, 380px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(214,179,110,.21), rgba(23,53,44,.08) 48%, transparent 70%); transform: scale(.72); opacity: 0; }
+    .celebration.visible .glow { animation: glow 1.2s ease forwards; }
+    .card { position: relative; width: min(100%, 420px); padding: 38px 26px 26px; overflow: hidden; border: 1px solid #426158; border-radius: 28px; background: linear-gradient(155deg, #1e4136, #142a24); box-shadow: 0 26px 80px rgba(0,0,0,.42); text-align: center; transform: translateY(18px) scale(.97); opacity: 0; }
+    .celebration.visible .card { animation: rise .65s .12s cubic-bezier(.2,.8,.2,1) forwards; }
+    .cross { display: grid; place-items: center; width: 56px; height: 62px; margin: 0 auto 22px; border: 1px solid #567568; border-radius: 8px 16px 16px 8px; background: #24483d; color: white; font-size: 2rem; box-shadow: inset 5px 0 rgba(255,255,255,.06); }
+    .kicker { margin: 0 0 10px; color: #e5c178; font-size: .68rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+    .card h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.35rem, 12vw, 4rem); font-weight: 400; letter-spacing: -.055em; line-height: .98; }
+    .card .message { max-width: 30ch; margin: 16px auto 24px; color: #c6d1cd; font-size: .91rem; line-height: 1.55; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .actions button { min-height: 48px; border: 1px solid #426158; border-radius: 999px; background: transparent; cursor: pointer; font-weight: 850; }
+    .actions .share { border-color: #e4c681; background: #f5e6c7; color: #1d3e34; }
+    .spark { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #f3d48d; opacity: 0; }
+    .celebration.visible .spark { animation: float 1.7s var(--delay) ease-out forwards; }
+    .s1 { top: 18%; left: 13%; --delay: .15s; } .s2 { top: 12%; right: 18%; --delay: .35s; }
+    .s3 { top: 45%; left: 8%; --delay: .48s; } .s4 { top: 38%; right: 10%; --delay: .22s; }
+    .s5 { bottom: 18%; left: 20%; --delay: .62s; } .s6 { bottom: 15%; right: 17%; --delay: .52s; }
+    @keyframes rise { to { transform: none; opacity: 1; } }
+    @keyframes glow { 45%,100% { transform: scale(1); opacity: 1; } }
+    @keyframes float { 0% { opacity: 0; transform: translateY(15px) scale(.5); } 35% { opacity: .9; } 100% { opacity: 0; transform: translateY(-55px) scale(1.25); } }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="preview">
+    <p>Demonstração separada</p>
+    <h1>Marco da missão</h1>
+    <small>Escolha um marco e abra a comemoração. Esta página não altera nem conta acessos da Bíblia.</small>
+    <div class="controls" aria-label="Escolher marco">
+      <button type="button" data-value="1000">1 mil</button>
+      <button type="button" data-value="5000">5 mil</button>
+      <button class="active" type="button" data-value="10000">10 mil</button>
+      <button type="button" data-value="25000">25 mil</button>
+      <button type="button" data-value="50000">50 mil</button>
+      <button type="button" data-value="100000">100 mil</button>
+    </div>
+    <section class="mission">
+      <strong>A Palavra já chegou a <span id="count-inline">10.000</span> pessoas</strong>
+      <span>Nossa missão é alcançar 100 mil pessoas.</span>
+      <div class="track" aria-hidden="true"><i id="progress"></i></div>
+    </section>
+    <button class="open" id="open" type="button">Ver comemoração</button>
+  </main>
+  <section class="celebration" id="celebration" role="dialog" aria-modal="true" aria-labelledby="milestone-title">
+    <div class="glow" aria-hidden="true"></div>
+    <article class="card">
+      <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i><i class="spark s5"></i><i class="spark s6"></i>
+      <div class="cross" aria-hidden="true">✝</div>
+      <p class="kicker">Um novo marco da nossa missão</p>
+      <h2 id="milestone-title"><span id="count-title">10 mil</span> pessoas alcançadas</h2>
+      <p class="message">A Palavra continua chegando mais longe. Obrigado por fazer parte desta missão.</p>
+      <div class="actions">
+        <button type="button" id="close">Continuar</button>
+        <button class="share" type="button" id="share">Compartilhar</button>
+      </div>
+    </article>
+  </section>
+  <script>
+    const labels = {1000:'1 mil',5000:'5 mil',10000:'10 mil',25000:'25 mil',50000:'50 mil',100000:'100 mil'};
+    let selected = 10000;
+    const modal = document.querySelector('#celebration');
+    function update(value) {
+      selected = Number(value);
+      document.querySelector('#count-inline').textContent = selected.toLocaleString('pt-BR');
+      document.querySelector('#count-title').textContent = labels[selected];
+      document.querySelector('#progress').style.width = Math.min(100, selected / 1000) + '%';
+      document.querySelectorAll('[data-value]').forEach(button => button.classList.toggle('active', Number(button.dataset.value) === selected));
+    }
+    document.querySelector('.controls').addEventListener('click', event => { if (event.target.dataset.value) update(event.target.dataset.value); });
+    document.querySelector('#open').addEventListener('click', () => { modal.classList.add('visible'); document.querySelector('#close').focus(); });
+    document.querySelector('#close').addEventListener('click', () => modal.classList.remove('visible'));
+    document.querySelector('#share').addEventListener('click', async () => {
+      const data = { title: 'A Palavra continua chegando mais longe', text: `${labels[selected]} pessoas já foram alcançadas pela Palavra. Ajude-nos na missão de chegar a 100 mil.`, url: 'https://midmake.github.io/Biblia-Midas/' };
+      if (navigator.share) await navigator.share(data).catch(() => {}); else await navigator.clipboard.writeText(`${data.text} ${data.url}`);
+    });
+    modal.addEventListener('click', event => { if (event.target === modal) modal.classList.remove('visible'); });
+  </script>
+</body>
+</html>
