@@ -145,7 +145,7 @@ function openDialog(dialog) {
 function footerMarkup() {
   return [
     '<footer class="app-footer">',
-    '<div class="midas-signature"><img src="./assets/midas-logo.png" alt="MIDAS" /></div>',
+    '<div class="midas-signature"><img src="./assets/midas-logo.png?v=5" alt="Logo MIDAS" /></div>',
     '<strong>Plataforma desenvolvida e fornecida pela MIDAS</strong>',
     '<span>Transformando momentos em ouro.</span>',
     '<a class="footer-email" href="mailto:midasstudiobr@gmail.com">midasstudiobr@gmail.com</a>',
@@ -664,7 +664,7 @@ function institutionalMarkup(kind) {
   var page = pages[kind] || pages.faq;
   return [
     '<section class="page institutional-page">',
-    '<header class="page-heading institutional-heading"><p class="eyebrow">' + page.eyebrow + '</p><h1>' + page.title + '</h1><div class="midas-signature compact"><img src="./assets/midas-logo.png" alt="MIDAS" /></div></header>',
+    '<header class="page-heading institutional-heading"><p class="eyebrow">' + page.eyebrow + '</p><h1>' + page.title + '</h1><div class="midas-signature compact"><img src="./assets/midas-logo.png?v=5" alt="Logo MIDAS" /></div></header>',
     '<article class="legal-card">' + page.content + '</article>',
     footerMarkup(),
     '</section>'

@@ -1,14 +1,15 @@
-var SHELL_CACHE = "midas-biblia-shell-v4";
-var CHAPTER_CACHE = "midas-biblia-chapters-v4";
+var SHELL_CACHE = "midas-biblia-shell-v5";
+var CHAPTER_CACHE = "midas-biblia-chapters-v5";
 var APP_SHELL = [
   "./",
   "./index.html",
   "./404.html",
   "./manifest.webmanifest",
-  "./assets/styles.css",
-  "./assets/app.js",
+  "./assets/styles.css?v=5",
+  "./assets/app.js?v=5",
   "./assets/bible-data.js",
-  "./assets/midas-logo.png",
+  "./assets/midas-logo.png?v=5",
+  "./assets/midas-wordmark.png?v=5",
   "./assets/icon.svg"
 ];
 

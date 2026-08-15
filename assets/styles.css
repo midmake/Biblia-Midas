@@ -36,7 +36,7 @@
   --text-soft: #a9bab4;
   --line: #33483f;
   --primary: #d6b36e;
-  --primary-strong: #edcc88;
+  --primary-strong: #16372e;
   --primary-soft: #2c4239;
   --gold: #dbb76d;
   --gold-soft: #433821;
@@ -166,6 +166,22 @@ p {
   display: block;
 }
 
+.brand-provider {
+  display: flex !important;
+  align-items: center;
+  gap: 5px;
+}
+
+.brand-provider img {
+  display: block;
+  width: 54px;
+  height: auto;
+}
+
+:root[data-theme="dark"] .brand-provider img {
+  filter: invert(1);
+}
+
 .brand-button strong {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.02rem;
@@ -187,9 +203,9 @@ p {
   height: 42px;
   border: 1px solid color-mix(in srgb, var(--gold) 60%, var(--line));
   border-radius: 6px 12px 12px 6px;
-  background: linear-gradient(145deg, #e7c779, #b88932);
-  color: #17352c;
-  box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.2);
+  background: var(--primary);
+  color: var(--surface);
+  box-shadow: inset 4px 0 0 color-mix(in srgb, var(--gold) 50%, transparent);
 }
 
 .brand-cross {
@@ -1179,9 +1195,9 @@ p {
 }
 
 .midas-signature {
-  width: min(154px, 52vw);
+  width: min(250px, 72vw);
   margin: 0 auto 14px;
-  padding: 10px 16px;
+  padding: 16px 22px;
   border: 1px solid color-mix(in srgb, var(--gold) 35%, var(--line));
   border-radius: 16px;
   background: #fbf4ee;
@@ -1194,9 +1210,9 @@ p {
 }
 
 .midas-signature.compact {
-  width: 96px;
+  width: 118px;
   margin: 0 0 18px;
-  padding: 8px 11px;
+  padding: 9px 13px;
   border-radius: 12px;
 }
 
