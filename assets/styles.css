@@ -166,21 +166,7 @@ p {
   display: block;
 }
 
-.brand-provider {
-  display: flex !important;
-  align-items: center;
-  gap: 5px;
-}
-
-.brand-provider img {
-  display: block;
-  width: 54px;
-  height: auto;
-}
-
-:root[data-theme="dark"] .brand-provider img {
-  filter: invert(1);
-}
+.brand-line { text-transform: uppercase; }
 
 .brand-button strong {
   font-family: Georgia, "Times New Roman", serif;
@@ -203,16 +189,9 @@ p {
   height: 42px;
   border: 1px solid color-mix(in srgb, var(--gold) 60%, var(--line));
   border-radius: 6px 12px 12px 6px;
-  background: var(--primary);
-  color: var(--surface);
-  box-shadow: inset 4px 0 0 color-mix(in srgb, var(--gold) 50%, transparent);
-}
-
-:root[data-theme="dark"] .brand-mark {
-  border-color: #426158;
-  background: #24483d;
-  color: #ffffff;
-  box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.08);
+  background: #b1843b;
+  color: #fffdf8;
+  box-shadow: inset 4px 0 0 #8f6828;
 }
 
 .brand-cross {
@@ -226,6 +205,63 @@ p {
   align-items: center;
   gap: 8px;
 }
+
+.mission-counter {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 1px solid color-mix(in srgb, var(--gold) 28%, var(--line));
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.mission-counter svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: var(--gold);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.mission-counter > span {
+  color: var(--text-soft);
+  font-size: 0.58rem;
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.mission-counter strong { display: block; color: var(--text); font-size: 0.7rem; }
+
+.mission-detail {
+  position: fixed;
+  z-index: 44;
+  top: calc(var(--topbar-height) + env(safe-area-inset-top) + 8px);
+  right: max(12px, env(safe-area-inset-right));
+  width: min(290px, calc(100vw - 24px));
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: 160ms ease;
+}
+
+.mission-detail.visible { opacity: 1; pointer-events: auto; transform: none; }
+.mission-detail strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 1rem; font-weight: 500; }
+.mission-detail p { margin: 5px 0 0; color: var(--text-soft); font-size: 0.7rem; line-height: 1.45; }
+.mission-progress { height: 4px; margin-top: 12px; overflow: hidden; border-radius: 99px; background: var(--surface-muted); }
+.mission-progress span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--gold), color-mix(in srgb, var(--gold) 55%, var(--primary))); transition: width 0.8s ease; }
+.mission-foot { display: flex; justify-content: space-between; gap: 12px; margin-top: 7px; color: var(--text-soft); font-size: 0.58rem; font-weight: 800; }
 
 .icon-button {
   display: grid;
@@ -271,7 +307,7 @@ p {
   bottom: 0;
   left: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   height: calc(var(--nav-height) + env(safe-area-inset-bottom));
   padding: 8px max(10px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(10px, env(safe-area-inset-left));
   border-top: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
@@ -356,9 +392,9 @@ p {
   padding: 30px 26px;
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(circle at 90% 6%, rgba(175, 130, 50, 0.16), transparent 15rem),
-    linear-gradient(145deg, #f8f0df, #ead8b7);
-  color: #18342c;
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), transparent 45%),
+    var(--primary-strong);
+  color: #fffaf1;
   box-shadow: var(--shadow);
 }
 
@@ -384,7 +420,7 @@ p {
 
 .hero-date {
   margin-bottom: 22px;
-  color: #7d6a48;
+  color: rgba(255, 250, 241, 0.68);
   font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -393,7 +429,7 @@ p {
 
 .hero .hero-label {
   margin-bottom: 10px;
-  color: #8d6725;
+  color: #e3bf79;
   font-size: 0.7rem;
   font-weight: 900;
   letter-spacing: 0.16em;
@@ -413,13 +449,13 @@ p {
 .hero > p:not(.hero-label) {
   max-width: 34ch;
   margin-bottom: 26px;
-  color: #52655e;
+  color: rgba(255, 250, 241, 0.76);
 }
 
 .hero-verse {
   max-width: 37ch;
   margin: 0 0 12px;
-  color: #26463c;
+  color: rgba(255, 250, 241, 0.9);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1rem;
   line-height: 1.62;
@@ -428,7 +464,7 @@ p {
 .hero-reference {
   display: block;
   margin-bottom: 24px;
-  color: #8d6725;
+  color: #e3bf79;
   font-size: 0.74rem;
   font-style: normal;
   font-weight: 800;
@@ -559,6 +595,8 @@ p {
   font-size: 1.1rem;
 }
 
+.quick-card .card-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+
 .quick-card strong {
   margin-top: 18px;
   font-size: 0.95rem;
@@ -592,12 +630,19 @@ p {
   width: 48px;
   height: 56px;
   border-radius: 5px 11px 11px 5px;
-  background: var(--primary);
+  background: #b1843b;
   color: #fff;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 0.9rem;
   font-weight: 700;
-  box-shadow: inset 4px 0 0 var(--gold);
+  box-shadow: inset 4px 0 0 #8f6828;
+}
+
+:root[data-theme="dark"] .book-miniature { background: var(--primary-strong); box-shadow: inset 4px 0 0 #3f584e; }
+
+@media (max-width: 390px) {
+  .mission-counter > span { font-size: 0; }
+  .mission-counter strong { font-size: 0.65rem; white-space: nowrap; }
 }
 
 .continue-card strong,
@@ -1204,9 +1249,10 @@ p {
 .midas-signature {
   width: min(250px, 72vw);
   margin: 0 auto 14px;
-  padding: 0;
-  border: 0;
-  background: transparent;
+  padding: 16px 22px;
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, var(--line));
+  border-radius: 16px;
+  background: #fbf4ee;
 }
 
 .midas-signature img {
@@ -1218,11 +1264,8 @@ p {
 .midas-signature.compact {
   width: 118px;
   margin: 0 0 18px;
-  padding: 0;
-}
-
-:root[data-theme="dark"] .midas-signature img {
-  filter: brightness(0) invert(1);
+  padding: 9px 13px;
+  border-radius: 12px;
 }
 
 .footer-email {
