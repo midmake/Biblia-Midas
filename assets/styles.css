@@ -399,9 +399,9 @@ p {
   padding: 30px 26px;
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.07), transparent 45%),
-    var(--primary-strong);
-  color: #fffaf1;
+    radial-gradient(circle at 88% 8%, rgba(177, 132, 59, 0.18), transparent 15rem),
+    linear-gradient(145deg, #fffdf8, #f1e3c5);
+  color: var(--text);
   box-shadow: var(--shadow);
 }
 
@@ -411,7 +411,7 @@ p {
   bottom: -88px;
   width: 220px;
   height: 280px;
-  border: 1px solid rgba(225, 192, 123, 0.24);
+  border: 1px solid rgba(177, 132, 59, 0.22);
   border-radius: 90px 20px 20px 90px;
   box-shadow:
     -18px 0 0 rgba(225, 192, 123, 0.05),
@@ -427,7 +427,7 @@ p {
 
 .hero-date {
   margin-bottom: 22px;
-  color: rgba(255, 250, 241, 0.68);
+  color: var(--text-soft);
   font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -462,7 +462,7 @@ p {
 .hero-verse {
   max-width: 37ch;
   margin: 0 0 12px;
-  color: rgba(255, 250, 241, 0.9);
+  color: var(--text);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1rem;
   line-height: 1.62;
