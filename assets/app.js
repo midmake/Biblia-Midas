@@ -1,13 +1,15 @@
 import { BOOKS, DAILY_VERSES, formatReference, getBook, normalizeText } from "./bible-data.js";
 
 var API_BASE = "https://bible-api.com/";
+var COUNTER_API = "https://counterapi.com/api/vereda-biblia/alcance/pessoas";
 var STORAGE = {
   favorites: "midas.biblia.favorites.v1",
   notes: "midas.biblia.notes.v1",
   reading: "midas.biblia.last-reading.v1",
   preferences: "midas.biblia.preferences.v1",
   chapterIndex: "midas.biblia.chapter-index.v1",
-  chapterPrefix: "midas.biblia.chapter."
+  chapterPrefix: "midas.biblia.chapter.",
+  reached: "vereda.biblia.reached.v1"
 };
 
 var app = document.querySelector("#app");
@@ -15,6 +17,8 @@ var verseSheet = document.querySelector("#verse-sheet");
 var settingsSheet = document.querySelector("#settings-sheet");
 var launchesSheet = document.querySelector("#launches-sheet");
 var toastElement = document.querySelector("#toast");
+var missionCounter = document.querySelector("#mission-counter");
+var missionDetail = document.querySelector("#mission-detail");
 var state = {
   selectedVerse: null,
   testament: "AT",
@@ -105,6 +109,30 @@ function showToast(message) {
   }, 2400);
 }
 
+function updateMissionCount(value) {
+  var count = Math.max(0, Number(value) || 0);
+  var formatted = count.toLocaleString("pt-BR");
+  document.querySelector("#mission-count").textContent = formatted;
+  document.querySelector("#mission-foot-count").textContent = formatted + " alcançadas";
+  document.querySelector("#mission-progress").style.width = Math.min(100, count / 1000) + "%";
+  document.querySelector(".mission-progress").setAttribute("aria-label", formatted + " de 100 mil pessoas alcançadas");
+}
+
+async function refreshMissionCounter() {
+  var alreadyReached = localStorage.getItem(STORAGE.reached) === "1";
+  var options = alreadyReached ? "?readOnly=true&unique=true" : "?unique=true";
+  try {
+    var response = await fetch(COUNTER_API + options, { headers: { Accept: "application/json" }, cache: "no-store" });
+    if (!response.ok) throw new Error("contador indisponível");
+    var result = await response.json();
+    updateMissionCount(result.value);
+    if (!alreadyReached) localStorage.setItem(STORAGE.reached, "1");
+  } catch (error) {
+    document.querySelector("#mission-count").textContent = "—";
+    document.querySelector("#mission-foot-count").textContent = "Contador temporariamente indisponível";
+  }
+}
+
 function navigate(route) {
   if (location.hash === route) {
     renderRoute();
@@ -146,7 +174,7 @@ function footerMarkup() {
   return [
     '<footer class="app-footer">',
     '<div class="midas-signature"><img src="./assets/midas-logo.png?v=5" alt="Logo MIDAS" /></div>',
-    '<strong>Plataforma desenvolvida e fornecida pela MIDAS</strong>',
+    '<strong>Uma experiência VEREDA, produzida pela Midas Studio</strong>',
     '<span>Transformando momentos em ouro.</span>',
     '<a class="footer-email" href="mailto:midasstudiobr@gmail.com">midasstudiobr@gmail.com</a>',
     '<nav class="institutional-links" aria-label="Informações institucionais">',
@@ -225,13 +253,13 @@ function homeMarkup() {
     '<div class="section-header"><h2 id="explore-title">Para este momento</h2></div>',
     '<div class="quick-grid">',
     '<button class="quick-card" type="button" data-route="#/biblia">',
-    '<span class="card-icon" aria-hidden="true">✝</span><strong>Bíblia Sagrada</strong><small>Escolha um livro e capítulo</small>',
+    '<span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22V4.5Z"></path><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M12 6v7M9 9.5h6"></path></svg></span><strong>Bíblia Sagrada</strong><small>Escolha um livro e capítulo</small>',
     "</button>",
     '<button class="quick-card" type="button" data-route="#/buscar">',
-    '<span class="card-icon" aria-hidden="true">⌕</span><strong>Encontrar passagem</strong><small>Busque por livro e versículo</small>',
+    '<span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></span><strong>Encontrar passagem</strong><small>Busque por livro e versículo</small>',
     "</button>",
     '<button class="quick-card" type="button" data-route="#/salvos">',
-    '<span class="card-icon" aria-hidden="true">♡</span><strong>Meus salvos</strong><small>Favoritos e anotações</small>',
+    '<span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4V3Z"></path></svg></span><strong>Meus salvos</strong><small>Favoritos e anotações</small>',
     "</button>",
     "</div>",
     "</section>",
@@ -615,10 +643,10 @@ function institutionalMarkup(kind) {
       eyebrow: "Ajuda",
       title: "Perguntas frequentes",
       content: [
-        '<details open><summary>A Bíblia Midas é gratuita?</summary><p>Sim. O acesso à plataforma de leitura é gratuito.</p></details>',
+        '<details open><summary>A Bíblia Sagrada é gratuita?</summary><p>Sim. O acesso à plataforma de leitura é gratuito.</p></details>',
         '<details><summary>Preciso criar uma conta?</summary><p>Não. Favoritos, anotações, preferências e continuidade de leitura ficam armazenados localmente no navegador deste aparelho.</p></details>',
         '<details><summary>Por que alguns capítulos precisam de internet?</summary><p>O texto dos capítulos é carregado por um serviço externo. Capítulos já visitados podem permanecer disponíveis no cache do navegador.</p></details>',
-        '<details><summary>Como funcionam favoritos e anotações?</summary><p>Toque em um versículo para salvá-lo ou fazer uma anotação. Esses dados não são enviados à MIDAS e podem ser perdidos se os dados do navegador forem apagados.</p></details>',
+        '<details><summary>Como funcionam favoritos e anotações?</summary><p>Toque em um versículo para salvá-lo ou fazer uma anotação. Esses dados ficam neste aparelho e podem ser perdidos se os dados do navegador forem apagados.</p></details>',
         '<details><summary>Qual texto bíblico é utilizado?</summary><p>Consulte a página <button class="text-link" type="button" data-route="#/creditos">Créditos do texto bíblico</button>.</p></details>'
       ].join("")
     },
@@ -627,9 +655,9 @@ function institutionalMarkup(kind) {
       title: "Política de Privacidade",
       content: [
         '<p class="legal-updated">Última atualização: 15 de agosto de 2026.</p>',
-        '<h2>1. Sobre esta plataforma</h2><p>A Bíblia Sagrada Midas é uma plataforma digital de acesso gratuito, desenvolvida e mantida pela MIDAS. A interface, a identidade visual, a organização, o código, os recursos e a experiência da plataforma são de uso exclusivo e constituem propriedade intelectual da MIDAS, ressalvados o texto bíblico e conteúdos de terceiros identificados nos créditos.</p>',
+        '<h2>1. Sobre esta plataforma</h2><p>A Bíblia Sagrada integra a linha Vereda e é uma plataforma digital de acesso gratuito produzida e mantida pela Midas Studio. A interface, a identidade visual, a organização, o código, os recursos e a experiência da plataforma constituem propriedade intelectual da Midas Studio, ressalvados o texto bíblico e conteúdos de terceiros identificados nos créditos.</p>',
         '<h2>2. Dados armazenados no aparelho</h2><p>Favoritos, anotações, preferências de aparência e histórico de leitura são armazenados localmente no navegador. A MIDAS não recebe nem mantém esses dados em seus servidores nesta versão da plataforma.</p>',
-        '<h2>3. Dados técnicos e serviços externos</h2><p>Para entregar os capítulos bíblicos e hospedar a aplicação, serviços técnicos de terceiros podem processar informações necessárias à conexão, como endereço IP, tipo de navegador, data, horário e registros de segurança, conforme as políticas desses fornecedores.</p>',
+        '<h2>3. Dados técnicos e serviços externos</h2><p>Para entregar os capítulos bíblicos, hospedar a aplicação e estimar o alcance da missão, serviços técnicos de terceiros podem processar informações necessárias à conexão. O contador utiliza uma identificação anonimizada para evitar contagens repetidas e não exibe dados pessoais aos usuários.</p>',
         '<h2>4. Cookies e armazenamento local</h2><p>A plataforma não utiliza cookies publicitários próprios. Utiliza armazenamento local e cache para manter preferências, dados salvos e melhorar a disponibilidade da leitura.</p>',
         '<h2>5. Compartilhamento</h2><p>A MIDAS não vende dados pessoais. Informações técnicas podem ser tratadas pelos provedores indispensáveis ao funcionamento e à segurança da plataforma, dentro das finalidades descritas nesta política.</p>',
         '<h2>6. Controle do usuário</h2><p>O usuário pode apagar favoritos, anotações e demais dados locais limpando os dados deste site nas configurações do navegador. Também pode impedir o armazenamento local, ciente de que alguns recursos deixarão de funcionar.</p>',
@@ -643,7 +671,7 @@ function institutionalMarkup(kind) {
       title: "Termos de Uso",
       content: [
         '<p class="legal-updated">Última atualização: 15 de agosto de 2026.</p>',
-        '<h2>1. Aceitação</h2><p>Ao acessar a Bíblia Sagrada Midas, você concorda com estes Termos de Uso e com a Política de Privacidade.</p>',
+        '<h2>1. Aceitação</h2><p>Ao acessar a Bíblia Sagrada, da linha Vereda, você concorda com estes Termos de Uso e com a Política de Privacidade.</p>',
         '<h2>2. Licença de uso</h2><p>A MIDAS concede uma licença pessoal, gratuita, limitada, não exclusiva e revogável para uso da plataforma. O acesso gratuito não transfere qualquer direito sobre a marca, o design, o código, a organização ou os recursos da aplicação.</p>',
         '<h2>3. Propriedade intelectual</h2><p>A plataforma e seus elementos próprios pertencem exclusivamente à MIDAS. É proibido copiar, modificar, vender, sublicenciar, explorar comercialmente, remover identificações de autoria ou reproduzir a experiência sem autorização. O texto bíblico e materiais de terceiros seguem os direitos e condições indicados na página de créditos.</p>',
         '<h2>4. Uso adequado</h2><p>O usuário não deve tentar comprometer a segurança, interferir no funcionamento, extrair dados de forma abusiva ou utilizar a plataforma para finalidade ilícita.</p>',
@@ -657,7 +685,7 @@ function institutionalMarkup(kind) {
       content: [
         '<h2>Tradução utilizada</h2><p>Esta plataforma apresenta a tradução histórica de João Ferreira de Almeida, em edição de domínio público.</p>',
         '<h2>Fonte técnica</h2><p>Os capítulos são fornecidos por <a href="https://bible-api.com/" target="_blank" rel="noopener noreferrer">bible-api.com</a>. A MIDAS organiza a experiência de leitura, mas não reivindica autoria ou propriedade sobre o texto bíblico.</p>',
-        '<h2>Plataforma MIDAS</h2><p>Design, código, identidade visual, navegação e recursos da Bíblia Sagrada Midas são propriedade intelectual da MIDAS.</p>'
+        '<h2>Produção</h2><p>Design, código, identidade visual, navegação e recursos desta experiência Vereda são produzidos pela Midas Studio.</p>'
       ].join("")
     }
   };
@@ -787,7 +815,7 @@ function toggleFavorite(verse) {
 }
 
 function shareTextForVerse(verse) {
-  return "“" + verse.text + "”\n\n" + verse.reference + "\nBíblia Sagrada — Midas";
+  return "“" + verse.text + "”\n\n" + verse.reference + "\nBíblia Sagrada — Vereda";
 }
 
 function deepLinkForVerse(verse) {
@@ -911,6 +939,13 @@ document.querySelector("#settings-button").addEventListener("click", function ()
   openDialog(settingsSheet);
 });
 
+missionCounter.addEventListener("click", function () {
+  var open = !missionDetail.classList.contains("visible");
+  missionDetail.classList.toggle("visible", open);
+  missionDetail.setAttribute("aria-hidden", String(!open));
+  missionCounter.setAttribute("aria-expanded", String(open));
+});
+
 document.querySelector("#favorite-action").addEventListener("click", function () {
   if (state.selectedVerse) toggleFavorite(state.selectedVerse);
 });
@@ -1000,6 +1035,8 @@ if ("serviceWorker" in navigator) {
 
 applyPreferences();
 updateConnectionStatus();
+refreshMissionCounter();
+setInterval(refreshMissionCounter, 15000);
 if (!location.hash) {
   history.replaceState(null, "", "#/inicio");
 }
