@@ -173,7 +173,7 @@ function openDialog(dialog) {
 function footerMarkup() {
   return [
     '<footer class="app-footer">',
-    '<div class="midas-signature"><img src="./assets/midas-logo.png?v=5" alt="Logo MIDAS" /></div>',
+    '<div class="midas-signature footer-signature"><img src="./assets/midas-wordmark.png?v=5" alt="MIDAS" /></div>',
     '<strong>Uma experiência VEREDA, produzida pela Midas Studio</strong>',
     '<span>Transformando momentos em ouro.</span>',
     '<a class="footer-email" href="mailto:midasstudiobr@gmail.com">midasstudiobr@gmail.com</a>',
