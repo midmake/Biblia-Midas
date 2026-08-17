@@ -1,6 +1,8 @@
 import { BOOKS, DAILY_VERSES, formatReference, getBook, normalizeText } from "./bible-data.js";
 
 var API_BASE = "https://bible-api.com/";
+var BIBLE_DATA_BASE = "https://cdn.jsdelivr.net/gh/maatheusgois/bible@a41119fccbc7eec7db5debbdaff04681a95fcd0a/versions/pt-br/arc/";
+var BIBLE_DATA_IDS = "gn ex lv nm dt js jud rt 1sm 2sm 1kgs 2kgs 1ch 2ch ezr ne et job ps prv ec so is jr lm ez dn ho jl am ob jn mi na hk zp hg zc ml mt mk lk jo act rm 1co 2co gl eph ph cl 1ts 2ts 1tm 2tm tt phm hb jm 1pe 2pe 1jo 2jo 3jo jd re".split(" ");
 var COUNTER_API = "https://counterapi.com/api/vereda-biblia/alcance/pessoas";
 var STORAGE = {
   favorites: "midas.biblia.favorites.v1",
@@ -372,28 +374,50 @@ async function fetchChapter(bookId, chapter, options) {
   if (!book) throw new Error("Livro não encontrado.");
   if (cached && cached.verses && !(options && options.refresh)) return cached.verses;
 
-  var reference = encodeURIComponent(book.apiName + " " + chapter);
-  var url = API_BASE + reference + "?translation=almeida&single_chapter_book_matching=indifferent";
+  var bookIndex = BOOKS.findIndex(function (item) { return item.id === book.id; });
+  var dataId = BIBLE_DATA_IDS[bookIndex];
+  var staticUrl = BIBLE_DATA_BASE + dataId + "/" + dataId + ".json";
 
   try {
-    var response = await fetch(url, { headers: { Accept: "application/json" } });
-    if (!response.ok) throw new Error("A passagem não pôde ser carregada.");
+    var response = await fetch(staticUrl, { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error("A fonte principal não respondeu.");
     var data = await response.json();
-    if (!Array.isArray(data.verses) || !data.verses.length) throw new Error("A passagem veio vazia.");
-    var verses = data.verses.map(function (item) {
+    var chapterTexts = data && Array.isArray(data.chapters) ? data.chapters[Number(chapter) - 1] : null;
+    if (!Array.isArray(chapterTexts) || !chapterTexts.length) throw new Error("O capítulo veio vazio.");
+    var verses = chapterTexts.map(function (text, index) {
       return {
         bookId: book.id,
-        chapter: Number(item.chapter || chapter),
-        verse: Number(item.verse),
-        text: cleanVerseText(item.text),
-        reference: formatReference(book.id, item.chapter || chapter, item.verse)
+        chapter: Number(chapter),
+        verse: index + 1,
+        text: cleanVerseText(text),
+        reference: formatReference(book.id, chapter, index + 1)
       };
     });
     writeChapterCache(book.id, chapter, verses);
     return verses;
-  } catch (error) {
-    if (cached && cached.verses) return cached.verses;
-    throw error;
+  } catch (primaryError) {
+    try {
+      var reference = encodeURIComponent(book.apiName + " " + chapter);
+      var fallbackUrl = API_BASE + reference + "?translation=almeida&single_chapter_book_matching=indifferent";
+      var fallbackResponse = await fetch(fallbackUrl, { headers: { Accept: "application/json" } });
+      if (!fallbackResponse.ok) throw new Error("A fonte reserva não respondeu.");
+      var fallbackData = await fallbackResponse.json();
+      if (!Array.isArray(fallbackData.verses) || !fallbackData.verses.length) throw new Error("A passagem veio vazia.");
+      var fallbackVerses = fallbackData.verses.map(function (item) {
+        return {
+          bookId: book.id,
+          chapter: Number(item.chapter || chapter),
+          verse: Number(item.verse),
+          text: cleanVerseText(item.text),
+          reference: formatReference(book.id, item.chapter || chapter, item.verse)
+        };
+      });
+      writeChapterCache(book.id, chapter, fallbackVerses);
+      return fallbackVerses;
+    } catch (fallbackError) {
+      if (cached && cached.verses) return cached.verses;
+      throw fallbackError;
+    }
   }
 }
 
@@ -684,7 +708,7 @@ function institutionalMarkup(kind) {
       title: "Créditos do texto bíblico",
       content: [
         '<h2>Tradução utilizada</h2><p>Esta plataforma apresenta a tradução histórica de João Ferreira de Almeida, em edição de domínio público.</p>',
-        '<h2>Fonte técnica</h2><p>Os capítulos são fornecidos por <a href="https://bible-api.com/" target="_blank" rel="noopener noreferrer">bible-api.com</a>. A MIDAS organiza a experiência de leitura, mas não reivindica autoria ou propriedade sobre o texto bíblico.</p>',
+        '<h2>Fonte técnica</h2><p>Os capítulos utilizam dados públicos da Almeida Revista e Corrigida distribuídos pelo projeto aberto <a href="https://github.com/maatheusgois/bible" target="_blank" rel="noopener noreferrer">Bible JSON</a>, com bible-api.com como fonte de contingência. A Midas Studio organiza a experiência de leitura, mas não reivindica autoria ou propriedade sobre o texto bíblico.</p>',
         '<h2>Produção</h2><p>Design, código, identidade visual, navegação e recursos desta experiência Vereda são produzidos pela Midas Studio.</p>'
       ].join("")
     }
