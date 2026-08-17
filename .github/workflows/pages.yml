@@ -27,6 +27,11 @@ jobs:
           node-version: 22
       - name: Validar arquivos
         run: npm run check
+      - name: Validar contador global
+        run: |
+          curl --fail --silent --show-error \
+            'https://counterapi.com/api/vereda-biblia/alcance/pessoas?readOnly=true&unique=true' \
+            | jq -e '.value | numbers'
 
   deploy:
     environment:
