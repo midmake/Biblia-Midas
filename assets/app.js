@@ -111,6 +111,22 @@ function showToast(message) {
   }, 2400);
 }
 
+function showVerseSheetToast(message) {
+  var feedback = verseSheet.querySelector(".sheet-feedback");
+  if (!feedback) {
+    feedback = document.createElement("div");
+    feedback.className = "sheet-feedback";
+    feedback.setAttribute("role", "status");
+    verseSheet.appendChild(feedback);
+  }
+  feedback.textContent = message;
+  feedback.classList.add("visible");
+  clearTimeout(showVerseSheetToast.timeout);
+  showVerseSheetToast.timeout = setTimeout(function () {
+    feedback.classList.remove("visible");
+  }, 2200);
+}
+
 function updateMissionCount(value) {
   var count = Math.max(0, Number(value) || 0);
   var formatted = count.toLocaleString("pt-BR");
@@ -904,16 +920,16 @@ function quoteImageForVerse(verse) {
     try {
       var canvas = document.createElement("canvas");
       canvas.width = 1080;
-      canvas.height = 1350;
+      canvas.height = 1920;
       var context = canvas.getContext("2d");
-      var gradient = context.createLinearGradient(0, 0, 1080, 1350);
+      var gradient = context.createLinearGradient(0, 0, 1080, 1920);
       gradient.addColorStop(0, "#101b18");
       gradient.addColorStop(1, "#18342c");
       context.fillStyle = gradient;
-      context.fillRect(0, 0, 1080, 1350);
+      context.fillRect(0, 0, 1080, 1920);
       context.strokeStyle = "rgba(214, 179, 110, 0.34)";
       context.lineWidth = 3;
-      context.strokeRect(72, 72, 936, 1206);
+      context.strokeRect(72, 72, 936, 1776);
       context.fillStyle = "#d6b36e";
       context.font = "700 27px Arial, sans-serif";
       context.fillText("BÍBLIA SAGRADA  ·  VEREDA", 112, 155);
@@ -927,16 +943,16 @@ function quoteImageForVerse(verse) {
       context.fillText(verse.reference, 112, Math.min(1080, endY + 70));
       context.strokeStyle = "rgba(214, 179, 110, 0.26)";
       context.beginPath();
-      context.moveTo(112, 1178);
-      context.lineTo(968, 1178);
+      context.moveTo(112, 1748);
+      context.lineTo(968, 1748);
       context.stroke();
       context.fillStyle = "#a9bab4";
       context.font = "24px Arial, sans-serif";
-      context.fillText("Leia e compartilhe a Palavra", 112, 1232);
+      context.fillText("Leia e compartilhe a Palavra", 112, 1802);
       context.fillStyle = "#d6b36e";
       context.font = "700 22px Arial, sans-serif";
       context.textAlign = "right";
-      context.fillText("MIDAS STUDIO", 968, 1232);
+      context.fillText("MIDAS STUDIO", 968, 1802);
       canvas.toBlob(function (blob) {
         if (!blob) return resolve(null);
         resolve(new File([blob], "palavra-" + verse.bookId.toLowerCase() + "-" + verse.chapter + "-" + verse.verse + ".png", { type: "image/png" }));
@@ -1099,9 +1115,9 @@ document.querySelector("#copy-action").addEventListener("click", async function 
   if (!state.selectedVerse) return;
   try {
     var copied = await copyText(shareTextForVerse(state.selectedVerse));
-    showToast(copied ? "Versículo copiado" : "Não foi possível copiar");
+    showVerseSheetToast(copied ? "Versículo copiado" : "Não foi possível copiar");
   } catch (error) {
-    showToast("Não foi possível copiar");
+    showVerseSheetToast("Não foi possível copiar");
   }
 });
 
