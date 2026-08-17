@@ -1,15 +1,16 @@
-var SHELL_CACHE = "vereda-biblia-shell-v8";
-var CHAPTER_CACHE = "vereda-biblia-chapters-v8";
+var SHELL_CACHE = "vereda-biblia-shell-v9";
+var CHAPTER_CACHE = "vereda-biblia-chapters-v9";
 var APP_SHELL = [
   "./",
   "./index.html",
   "./404.html",
   "./manifest.webmanifest",
   "./assets/styles.css?v=8",
-  "./assets/app.js?v=7",
+  "./assets/app.js?v=8",
   "./assets/bible-data.js",
   "./assets/midas-logo.png?v=5",
   "./assets/midas-wordmark.png?v=5",
+  "./assets/share-card.png?v=1",
   "./assets/icon.svg"
 ];
 
@@ -47,7 +48,7 @@ self.addEventListener("fetch", function (event) {
 
   var url = new URL(request.url);
 
-  if (url.hostname === "bible-api.com") {
+  if (url.hostname === "bible-api.com" || url.hostname === "cdn.jsdelivr.net") {
     event.respondWith(
       caches.open(CHAPTER_CACHE).then(function (cache) {
         return cache.match(request).then(function (cached) {
