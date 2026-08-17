@@ -844,7 +844,8 @@ function shareTextForVerse(verse) {
 
 function deepLinkForVerse(verse) {
   var base = location.origin + location.pathname.replace(/[^/]*$/, "");
-  return base + "#/leitura/" + verse.bookId + "/" + verse.chapter + "/" + verse.verse;
+  var shareId = [verse.bookId, verse.chapter, verse.verse].join("-").toLowerCase();
+  return base + "?passagem=" + encodeURIComponent(shareId) + "#/leitura/" + verse.bookId + "/" + verse.chapter + "/" + verse.verse;
 }
 
 async function shareVerse(verse) {
