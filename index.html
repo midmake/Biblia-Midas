@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta
       name="description"
-      content="Bíblia Sagrada Midas — leitura, palavra do dia, favoritos e anotações em uma experiência feita para o celular."
+      content="Bíblia Sagrada — leitura, palavra do dia, favoritos e anotações em uma experiência da linha Vereda."
     />
     <meta name="theme-color" content="#fbf8f1" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Bíblia Midas" />
+    <meta name="apple-mobile-web-app-title" content="Bíblia Sagrada" />
     <meta property="og:title" content="Bíblia Sagrada" />
     <meta property="og:description" content="Uma palavra para acompanhar o seu dia." />
     <meta property="og:type" content="website" />
-    <title>Bíblia Sagrada — Midas</title>
+    <title>Bíblia Sagrada | Vereda</title>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="./assets/icon.svg" />
-    <link rel="stylesheet" href="./assets/styles.css?v=6" />
+    <link rel="stylesheet" href="./assets/styles.css?v=7" />
   </head>
   <body>
     <a class="skip-link" href="#app">Pular para o conteúdo</a>
@@ -33,20 +33,25 @@
           </span>
           <span>
             <strong>Bíblia Sagrada</strong>
-            <small class="brand-provider"><span>por</span><img src="./assets/midas-wordmark.png?v=5" alt="MIDAS" /></small>
+            <small class="brand-line">Vereda</small>
           </span>
         </button>
 
         <div class="topbar-actions">
           <span class="connection-pill" id="connection-pill" hidden>Sem internet</span>
-          <button class="icon-button" id="settings-button" type="button" aria-label="Ajustes">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
-              <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3v-4h.08A1.7 1.7 0 0 0 4.64 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 10 3.08V3h4v.08a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.56 1.03H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path>
-            </svg>
+          <button class="mission-counter" id="mission-counter" type="button" aria-expanded="false" aria-controls="mission-detail">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-4.35 7-11a4 4 0 0 0-7-2.65A4 4 0 0 0 5 10c0 6.65 7 11 7 11Z"></path><path d="M12 8v6M9 11h6"></path></svg>
+            <span>A Palavra já chegou a<strong><span id="mission-count">—</span> pessoas</strong></span>
           </button>
         </div>
       </header>
+
+      <aside class="mission-detail" id="mission-detail" aria-hidden="true">
+        <strong>Nossa missão é alcançar 100 mil pessoas.</strong>
+        <p>Encoste sua Bíblia, compartilhe a Palavra e ajude-nos a alcançar 100 mil pessoas.</p>
+        <div class="mission-progress" aria-label="Progresso da missão"><span id="mission-progress"></span></div>
+        <div class="mission-foot"><span id="mission-foot-count">Carregando…</span><span>Meta: 100 mil</span></div>
+      </aside>
 
       <main id="app" tabindex="-1" aria-live="polite"></main>
 
@@ -77,6 +82,13 @@
             <path d="M6 3h12v18l-6-4-6 4V3Z"></path>
           </svg>
           <span>Salvos</span>
+        </button>
+        <button type="button" id="settings-button" aria-label="Abrir ajustes">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3v-4h.08A1.7 1.7 0 0 0 4.64 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 10 3.08V3h4v.08a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.56 1.03H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path>
+          </svg>
+          <span>Ajustes</span>
         </button>
       </nav>
     </div>
@@ -143,7 +155,7 @@
     <dialog class="sheet launches-sheet" id="launches-sheet">
       <div class="sheet-handle" aria-hidden="true"></div>
       <button class="sheet-close" type="button" data-close-dialog aria-label="Fechar">×</button>
-      <p class="eyebrow">Experiências MIDAS</p>
+      <p class="eyebrow">Experiências Vereda</p>
       <div class="midas-signature compact" aria-label="MIDAS">
         <img src="./assets/midas-logo.png?v=5" alt="MIDAS" />
       </div>
@@ -167,7 +179,7 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <noscript>Ative o JavaScript para usar a Bíblia Sagrada Midas.</noscript>
-    <script type="module" src="./assets/app.js?v=5"></script>
+    <noscript>Ative o JavaScript para usar a Bíblia Sagrada.</noscript>
+    <script type="module" src="./assets/app.js?v=6"></script>
   </body>
 </html>
