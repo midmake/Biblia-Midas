@@ -854,6 +854,14 @@ async function shareVerse(verse) {
     text: shareTextForVerse(verse),
     url: deepLinkForVerse(verse)
   };
+  var quoteFile = await quoteImageForVerse(verse);
+  try {
+    if (quoteFile && navigator.canShare && navigator.canShare({ files: [quoteFile] })) {
+      shareData.files = [quoteFile];
+    }
+  } catch (error) {
+    // Mantém o compartilhamento por texto e link quando arquivos não são aceitos.
+  }
   if (navigator.share) {
     try {
       await navigator.share(shareData);
@@ -866,10 +874,87 @@ async function shareVerse(verse) {
   showToast("Texto copiado para compartilhar");
 }
 
+function drawWrappedText(context, text, x, y, maxWidth, lineHeight, maxLines) {
+  var words = String(text).split(/\s+/);
+  var lines = [];
+  var line = "";
+  words.forEach(function (word) {
+    var test = line ? line + " " + word : word;
+    if (context.measureText(test).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = test;
+    }
+  });
+  if (line) lines.push(line);
+  if (lines.length > maxLines) {
+    lines = lines.slice(0, maxLines);
+    while (context.measureText(lines[maxLines - 1] + "…").width > maxWidth) {
+      lines[maxLines - 1] = lines[maxLines - 1].replace(/\s+\S+$/, "");
+    }
+    lines[maxLines - 1] += "…";
+  }
+  lines.forEach(function (item, index) { context.fillText(item, x, y + index * lineHeight); });
+  return y + lines.length * lineHeight;
+}
+
+function quoteImageForVerse(verse) {
+  return new Promise(function (resolve) {
+    try {
+      var canvas = document.createElement("canvas");
+      canvas.width = 1080;
+      canvas.height = 1350;
+      var context = canvas.getContext("2d");
+      var gradient = context.createLinearGradient(0, 0, 1080, 1350);
+      gradient.addColorStop(0, "#101b18");
+      gradient.addColorStop(1, "#18342c");
+      context.fillStyle = gradient;
+      context.fillRect(0, 0, 1080, 1350);
+      context.strokeStyle = "rgba(214, 179, 110, 0.34)";
+      context.lineWidth = 3;
+      context.strokeRect(72, 72, 936, 1206);
+      context.fillStyle = "#d6b36e";
+      context.font = "700 27px Arial, sans-serif";
+      context.fillText("BÍBLIA SAGRADA  ·  VEREDA", 112, 155);
+      context.fillStyle = "#fffdf8";
+      var fontSize = verse.text.length > 300 ? 47 : verse.text.length > 190 ? 54 : 62;
+      var lineHeight = Math.round(fontSize * 1.38);
+      context.font = fontSize + "px Georgia, serif";
+      var endY = drawWrappedText(context, "“" + verse.text + "”", 112, 310, 856, lineHeight, 10);
+      context.fillStyle = "#d6b36e";
+      context.font = "700 34px Arial, sans-serif";
+      context.fillText(verse.reference, 112, Math.min(1080, endY + 70));
+      context.strokeStyle = "rgba(214, 179, 110, 0.26)";
+      context.beginPath();
+      context.moveTo(112, 1178);
+      context.lineTo(968, 1178);
+      context.stroke();
+      context.fillStyle = "#a9bab4";
+      context.font = "24px Arial, sans-serif";
+      context.fillText("Leia e compartilhe a Palavra", 112, 1232);
+      context.fillStyle = "#d6b36e";
+      context.font = "700 22px Arial, sans-serif";
+      context.textAlign = "right";
+      context.fillText("MIDAS STUDIO", 968, 1232);
+      canvas.toBlob(function (blob) {
+        if (!blob) return resolve(null);
+        resolve(new File([blob], "palavra-" + verse.bookId.toLowerCase() + "-" + verse.chapter + "-" + verse.verse + ".png", { type: "image/png" }));
+      }, "image/png", 0.92);
+    } catch (error) {
+      resolve(null);
+    }
+  });
+}
+
 async function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {
-    await navigator.clipboard.writeText(text);
-    return;
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (error) {
+      // Alguns navegadores internos expõem a API, mas bloqueiam a escrita.
+    }
   }
   var area = document.createElement("textarea");
   area.value = text;
@@ -877,9 +962,12 @@ async function copyText(text) {
   area.style.position = "fixed";
   area.style.opacity = "0";
   document.body.appendChild(area);
+  area.focus();
   area.select();
-  document.execCommand("copy");
+  area.setSelectionRange(0, area.value.length);
+  var copied = document.execCommand("copy");
   area.remove();
+  return copied;
 }
 
 function removeSaved(kind, key) {
@@ -1009,8 +1097,12 @@ document.querySelector("#share-action").addEventListener("click", function () {
 
 document.querySelector("#copy-action").addEventListener("click", async function () {
   if (!state.selectedVerse) return;
-  await copyText(shareTextForVerse(state.selectedVerse));
-  showToast("Versículo copiado");
+  try {
+    var copied = await copyText(shareTextForVerse(state.selectedVerse));
+    showToast(copied ? "Versículo copiado" : "Não foi possível copiar");
+  } catch (error) {
+    showToast("Não foi possível copiar");
+  }
 });
 
 document.querySelectorAll("[data-font-size]").forEach(function (button) {
