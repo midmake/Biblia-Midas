@@ -1,12 +1,12 @@
-var SHELL_CACHE = "vereda-biblia-shell-v7";
-var CHAPTER_CACHE = "vereda-biblia-chapters-v7";
+var SHELL_CACHE = "vereda-biblia-shell-v8";
+var CHAPTER_CACHE = "vereda-biblia-chapters-v8";
 var APP_SHELL = [
   "./",
   "./index.html",
   "./404.html",
   "./manifest.webmanifest",
-  "./assets/styles.css?v=7",
-  "./assets/app.js?v=6",
+  "./assets/styles.css?v=8",
+  "./assets/app.js?v=7",
   "./assets/bible-data.js",
   "./assets/midas-logo.png?v=5",
   "./assets/midas-wordmark.png?v=5",
