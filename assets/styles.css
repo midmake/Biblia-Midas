@@ -1430,6 +1430,32 @@ p {
   font-size: 1.35rem;
 }
 
+.sheet-feedback {
+  position: absolute;
+  z-index: 5;
+  top: 18px;
+  left: 50%;
+  display: block;
+  width: max-content;
+  max-width: calc(100% - 40px);
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--surface);
+  font-size: 0.76rem;
+  font-weight: 850;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -8px);
+  transition: 160ms ease;
+}
+
+.sheet-feedback.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 .sheet h2 {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.8rem;
