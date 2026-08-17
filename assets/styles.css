@@ -194,6 +194,13 @@ p {
   box-shadow: inset 4px 0 0 #8f6828;
 }
 
+:root[data-theme="dark"] .brand-mark {
+  border-color: #426158;
+  background: #24483d;
+  color: #ffffff;
+  box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.08);
+}
+
 .brand-cross {
   width: 22px;
   height: 22px;
@@ -1266,6 +1273,19 @@ p {
   margin: 0 0 18px;
   padding: 9px 13px;
   border-radius: 12px;
+}
+
+.midas-signature.footer-signature {
+  width: 92px;
+  margin-bottom: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+:root[data-theme="dark"] .midas-signature.footer-signature img {
+  filter: invert(1);
 }
 
 .footer-email {
